@@ -11,7 +11,7 @@ export const SideBar = () => {
   const pathName = usePathname()
 
   return (
-    <aside className="min-w-64 bg-zinc-800 flex flex-col">
+    <aside className="fixed top-0 bottom-0 min-w-64 bg-zinc-800 flex flex-col">
       <header className="grid place-content-center py-4 border-b">
         <Link href={"/"} >
           <Image src={Logo} width={165} alt="MyMenuList logo image" />

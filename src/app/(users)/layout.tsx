@@ -11,9 +11,9 @@ export default function UsersLayout({ children }: { children: React.ReactNode })
     <main className="flex min-h-screen bg-zinc-200">
       <SideBar />
 
-      <section className="w-full mx-auto min-h-full flex flex-col">
-        <header className="py-4 px-4 flex justify-end border-b border-zinc-800">
-          <div>
+      <section className="ml-64 w-full mx-auto min-h-full flex flex-col">
+        <header className="sticky top-0 flex justify-end w-full py-4 px-6 bg-zinc-200 border-b border-zinc-800">
+          <div className="">
             <DropdownMenu>
               <DropdownMenuTrigger className="flex py-2 px-4 rounded gap-x-4 bg-primary text-white">
                 <Menu />
@@ -29,7 +29,7 @@ export default function UsersLayout({ children }: { children: React.ReactNode })
             </DropdownMenu>
           </div>
         </header>
-        <section className="mt-6 px-4">
+        <section className="mt-10 px-6">
           {children}
         </section>
       </section>
