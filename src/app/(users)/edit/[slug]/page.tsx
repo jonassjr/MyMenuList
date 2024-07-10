@@ -1,4 +1,4 @@
-import { Input } from "@/components/ui/input";
+import { Input } from "@/components/ui/input"
 
 import {
   Select,
@@ -7,8 +7,20 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select"
-import { Plus, Search } from "lucide-react";
 
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog"
+
+import { Plus, Search } from "lucide-react"
+import { ItemForm } from "@/components/forms/ItemForm"
+
+const array = [1, 2, 3]
 
 export default function EditMenuPage() {
   return (
@@ -44,11 +56,26 @@ export default function EditMenuPage() {
 
         <section className="grid grid-cols-1 sm:grid-cols-2 min-[1200px]:grid-cols-3 gap-6">
           <article className="flex flex-col gap-y-2 ">
-            <div className="w-full h-[220px] border-2 rounded-md border-dashed border-zinc-400 
-              flex flex-col items-center justify-center">
-              <Plus size={52} className="text-zinc-600 text-center" />
-              <p className="muted-foreground">Adicionar um novo item</p>
-            </div>
+            <Dialog>
+              <DialogTrigger asChild>
+                <div className="w-full h-[220px] border-2 rounded-md border-dashed border-zinc-400 
+                  flex flex-col items-center justify-center cursor-pointer">
+                  <Plus size={52} className="text-zinc-600 text-center" />
+                  <p className="muted-foreground">Adicionar um novo item</p>
+                </div>
+              </DialogTrigger>
+              <DialogContent className="max-w-2xl bg-zinc-900 text-white border-none gap-y-6">
+                <DialogHeader>
+                  <DialogTitle className="">Adicionar item</DialogTitle>
+                  <DialogDescription className="text-zinc-500">
+                    Aqui você pode adicionar item ao seu menu.
+
+                  </DialogDescription>
+                </DialogHeader>
+
+                <ItemForm />
+              </DialogContent>
+            </Dialog>
 
             <div className="flex flex-col text-zinc-900" >
               <h2 className="font-medium">Novo item</h2>
@@ -56,43 +83,20 @@ export default function EditMenuPage() {
             </div>
           </article>
 
-          <article className="flex flex-col gap-y-2">
-            <div className="w-full h-[220px] bg-zinc-300 rounded-md">
-            </div>
-            <div className="flex flex-col text-zinc-900" >
-              <h2 className="font-medium">Nome do prato</h2>
-              <p className="text-sm">Descrição simples e pequena sobre o prato.</p>
-            </div>
-          </article>
-          <article className="flex flex-col gap-y-2">
-            <div className="w-full h-[220px] bg-zinc-300 rounded-md">
+          {array.map((item, i) => (
+            <article key={i}
+              className="flex flex-col gap-y-2">
+              <div className="w-full h-[220px] bg-zinc-300 rounded-md">
+              </div>
+              <div className="flex flex-col text-zinc-900" >
+                <h2 className="font-medium">Nome do prato {item}</h2>
+                <p className="text-sm">Descrição simples e pequena sobre o prato.</p>
+              </div>
+            </article>
+          ))}
 
-            </div>
-            <div className="flex flex-col text-zinc-900" >
-              <h2 className="font-medium">Nome do prato</h2>
-              <p className="text-sm">Descrição simples e pequena sobre o prato.</p>
-            </div>
-          </article>
-          <article className="flex flex-col gap-y-2">
-            <div className="w-full h-[220px] bg-zinc-300 rounded-md">
-
-            </div>
-            <div className="flex flex-col text-zinc-900" >
-              <h2 className="font-medium">Nome do prato</h2>
-              <p className="text-sm">Descrição simples e pequena sobre o prato.</p>
-            </div>
-          </article>
-          <article className="flex flex-col gap-y-2">
-            <div className="w-full h-[220px] bg-zinc-300 rounded-md">
-
-            </div>
-            <div className="flex flex-col text-zinc-900" >
-              <h2 className="font-medium">Nome do prato</h2>
-              <p className="text-sm">Descrição simples e pequena sobre o prato.</p>
-            </div>
-          </article>
         </section>
       </div>
-    </main>
+    </main >
   )
 }
