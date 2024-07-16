@@ -64,16 +64,19 @@ export default function EditMenuPage() {
                   <p className="muted-foreground">Adicionar um novo item</p>
                 </div>
               </DialogTrigger>
-              <DialogContent className="max-w-2xl bg-zinc-900 text-white border-none gap-y-6">
-                <DialogHeader>
-                  <DialogTitle className="">Adicionar item</DialogTitle>
-                  <DialogDescription className="text-zinc-500">
-                    Aqui você pode adicionar item ao seu menu.
+              <DialogContent className="max-w-5xl max-h-[90vh] bg-zinc-900 p-0 text-white border-none gap-y-4 overflow-y-auto custom-scrollbar">
+                <div className="max-w-3xl flex flex-col gap-y-8 p-8 bg-zinc-800">
+                  <DialogHeader>
+                    <DialogTitle className="">Adicionar item</DialogTitle>
+                    <DialogDescription className="text-zinc-500">
+                      Aqui você pode adicionar item ao seu menu.
+                    </DialogDescription>
+                  </DialogHeader>
 
-                  </DialogDescription>
-                </DialogHeader>
+                  <ItemForm />
 
-                <ItemForm />
+                </div>
+
               </DialogContent>
             </Dialog>
 

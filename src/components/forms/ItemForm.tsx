@@ -1,6 +1,9 @@
+
 import { Label } from "../ui/label"
 
 import { Input } from "../ui/input"
+
+import React, { useState } from 'react';
 
 import {
   Select,
@@ -11,10 +14,33 @@ import {
 } from "../ui/select"
 
 import { Textarea } from "../ui/textarea"
+import { TagInput } from "../TagInput";
+import { Button } from "../ui/button";
+import {
+  Form,
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "../ui/form"
+
+
+import { IngredientInput } from "../IngredientInput";
+import { FileUploader } from "../FileUploader";
+import { Save } from "lucide-react";
+
 
 export const ItemForm = () => {
+
   return (
     <form action="" className="flex flex-col gap-y-8">
+
+      <section className="">
+        <FileUploader />
+      </section>
+
       <section className="w-full grid grid-cols-2 gap-4">
         <div className="w-full flex flex-col gap-y-2">
           <Label htmlFor="item" className="text-zinc-200">Item</Label>
@@ -23,8 +49,9 @@ export const ItemForm = () => {
             name="item"
             type="text"
             placeholder="Fettuccine com batata duchesse"
-            className="bg-zinc-900 ring-offset-zinc-900 focus-visible:ring-zinc-300 placeholder:text-zinc-400" />
+            className="bg-zinc-800 ring-offset-zinc-800 focus-visible:ring-zinc-300 placeholder:text-zinc-400" />
         </div>
+
         <div className=" w-full flex flex-col gap-y-2">
           <Label htmlFor="price" className="text-zinc-200">Preço</Label>
           <div className="relative">
@@ -34,32 +61,33 @@ export const ItemForm = () => {
               name="price"
               type="text"
               placeholder="0,00"
-              className="bg-zinc-900 ring-offset-zinc-900 focus-visible:ring-zinc-300 placeholder:text-zinc-400 pl-8" />
+              className="bg-zinc-800 ring-offset-zinc-800 focus-visible:ring-zinc-300 placeholder:text-zinc-400 pl-8" />
           </div>
         </div>
 
         <div className="w-full flex flex-col gap-y-2">
           <Label htmlFor="price" className="text-zinc-200">Categoria</Label>
           <Select>
-            <SelectTrigger className="bg-zinc-900 text-zinc-200 focus-visible:ring-zinc-300 ring-offset-zinc-900">
+            <SelectTrigger className="bg-zinc-800 text-zinc-200 ring-offset-zinc-800 focus:ring-zinc-300 data-[placeholder]:text-zinc-400">
               <SelectValue placeholder="Categoria" />
             </SelectTrigger>
-            <SelectContent className="bg-zinc-900 text-zinc-200">
-              <SelectItem value="entradas" className="focus:bg-zinc-200 focus-visible:ring-zinc-300 ring-offset-zinc-900">Entradas</SelectItem>
-              <SelectItem value="prato-principal" className="focus:bg-zinc-200 focus-visible:ring-zinc-300 ring-offset-zinc-900">Pratos Principais</SelectItem>
-              <SelectItem value="acompanhamento" className="focus:bg-zinc-200 focus-visible:ring-zinc-300 ring-offset-zinc-900">Acompanhamentos</SelectItem>
+            <SelectContent className="bg-zinc-800 text-zinc-200 ">
+              <SelectItem value="entradas" className="focus:bg-zinc-200 ">Entradas</SelectItem>
+              <SelectItem value="prato-principal" className="focus:bg-zinc-200 ">Pratos Principais</SelectItem>
+              <SelectItem value="acompanhamento" className="focus:bg-zinc-200 ">Acompanhamentos</SelectItem>
             </SelectContent>
           </Select>
         </div>
         <div className="w-full flex flex-col gap-y-2">
           <Label htmlFor="price" className="text-zinc-200 ">Disponibilidade</Label>
           <Select>
-            <SelectTrigger className="bg-zinc-900 text-zinc-200 focus-visible:ring-zinc-300 ring-offset-zinc-900">
-              <SelectValue placeholder="Theme" />
+            <SelectTrigger className="bg-zinc-800 text-zinc-200
+             ring-offset-zinc-800 focus:ring-zinc-300 data-[placeholder]:text-zinc-400" >
+              <SelectValue placeholder="selecione uma disponibilidade" />
             </SelectTrigger>
-            <SelectContent className="bg-zinc-900 text-zinc-200">
-              <SelectItem value="disponivel" className="focus:bg-zinc-200 focus-visible:ring-zinc-300 ring-offset-zinc-900">Disponível</SelectItem>
-              <SelectItem value="indisponivel" className="focus:bg-zinc-200 focus-visible:ring-zinc-300 ring-offset-zinc-900">Idisponível</SelectItem>
+            <SelectContent className="bg-zinc-800 text-zinc-200">
+              <SelectItem value="disponivel" className="focus:bg-zinc-200">Disponível</SelectItem>
+              <SelectItem value="indisponivel" className="focus:bg-zinc-200">Idisponível</SelectItem>
             </SelectContent>
           </Select>
         </div>
@@ -67,67 +95,39 @@ export const ItemForm = () => {
 
       <section>
         <div className="w-full flex flex-col gap-y-2">
-          <Label htmlFor="descrição" className="text-zinc-200">Descrição</Label>
-          <Textarea
-            className="bg-zinc-900 placeholder:text-zinc-400 ring-offset-zinc-900 focus-visible:ring-zinc-300"
-            placeholder="Adicione uma descrição ao seu produto" />
+          <Label htmlFor="ingredients" className="text-zinc-200">Ingredientes</Label>
+          <IngredientInput />
         </div>
       </section>
 
       <section className="w-full grid grid-cols-2 gap-4">
         <div className="w-full flex flex-col gap-y-2">
-          <Label htmlFor="time" className="text-zinc-200">Preparação</Label>
-          <Input
-            id="time"
-            name="time"
-            type="text"
-            placeholder="34 min"
-            className="bg-zinc-900 ring-offset-zinc-900 focus-visible:ring-zinc-300 placeholder:text-zinc-400" />
-        </div>
-        <div className="w-full flex flex-col gap-y-2">
-          <Label htmlFor="tags" className="text-zinc-200">Tags</Label>
-          <Select>
-            <SelectTrigger className="bg-zinc-900 text-zinc-200 focus-visible:ring-zinc-300 ring-offset-zinc-900">
-              <SelectValue placeholder="Categoria" />
-            </SelectTrigger>
-            <SelectContent className="bg-zinc-900 text-zinc-200">
-              <SelectItem value="entradas" className="focus:bg-zinc-200 focus:text-zinc-900">Entradas</SelectItem>
-              <SelectItem value="prato-principal" className="focus:bg-zinc-200 focus:text-zinc-900">Pratos Principais</SelectItem>
-              <SelectItem value="acompanhamento" className="focus:bg-zinc-200 focus:text-zinc-900">Acompanhamentos</SelectItem>
-            </SelectContent>
-          </Select>
+          <Label htmlFor="descrição" className="text-zinc-200">Descrição</Label>
+          <Textarea
+            className="bg-zinc-800 placeholder:text-zinc-400 ring-offset-zinc-800 focus-visible:ring-zinc-300"
+            placeholder="Adicione uma descrição ao seu produto" />
         </div>
 
         <div className="w-full flex flex-col gap-y-2">
-          <Label htmlFor="ingredients" className="text-zinc-200">Ingredientes</Label>
-          <Input
-            id="ingredients"
-            name="time"
-            type="text"
-            placeholder="Ingredients"
-            className="bg-zinc-900 ring-offset-zinc-900 focus-visible:ring-zinc-300 placeholder:text-zinc-400" />
-        </div>
-
-        <div className="w-full flex flex-col gap-y-2">
-          <Label htmlFor="info" className="text-zinc-200">informações nutricionais</Label>
-          <Input
-            id="info"
-            name="time"
-            type="text"
-            placeholder="info"
-            className="bg-zinc-900 ring-offset-zinc-900 focus-visible:ring-zinc-300 placeholder:text-zinc-400" />
+          <Label htmlFor="aditional-info" className="text-zinc-200">Informações adicionais</Label>
+          <Textarea
+            id="aditional-info"
+            className="bg-zinc-800 placeholder:text-zinc-400 ring-offset-zinc-800 focus-visible:ring-zinc-300"
+            placeholder="Pode conter traços de nozes" />
         </div>
       </section>
 
       <section>
         <div className="w-full flex flex-col gap-y-2">
-          <Label htmlFor="aditional-info" className="text-zinc-200">Informações adicionais</Label>
-          <Textarea
-            id="aditional-info"
-            className="bg-zinc-900 placeholder:text-zinc-400 ring-offset-zinc-900 focus-visible:ring-zinc-300"
-            placeholder="Pode conter traços de nozes" />
+          <Label htmlFor="tags" className="text-zinc-200">Tags</Label>
+          <TagInput />
         </div>
       </section>
+
+      <Button variant={"secondary"} className="w-fit self-end gap-2 text-md font-semibold ring-offset-zinc-800 focus-visible:ring-zinc-300">
+        Salvar
+        <Save className="text-zinc-800" />
+      </Button>
     </form>
   )
 }

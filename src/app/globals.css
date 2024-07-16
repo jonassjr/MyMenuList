@@ -74,3 +74,21 @@
       @apply bg-background text-foreground;
     }
   }
+
+  .custom-scrollbar::-webkit-scrollbar {
+    @apply w-2
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+    @apply bg-zinc-900 rounded-r-lg
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+    @apply bg-zinc-600 rounded-lg
+
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  @apply bg-zinc-800 rounded-md
+}
+
