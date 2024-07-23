@@ -1,4 +1,3 @@
-import { getURL } from "next/dist/shared/lib/utils"
 import { NextResponse, NextRequest } from "next/server"
 
 export default function middleware(request: NextRequest) {
@@ -13,7 +12,10 @@ export default function middleware(request: NextRequest) {
     return NextResponse.redirect(dashboardPath)
   }
 
-  if (pathName.includes('/dashboard') && !token) {
+  const protectedRoutes = ["/dashboard", "/edit", "/settings", "/upgrade"]
+  const isProtectedRoute = protectedRoutes.some(route => pathName.startsWith(route))
+
+  if (isProtectedRoute && !token) {
     return NextResponse.redirect(loginPath)
   }
 
