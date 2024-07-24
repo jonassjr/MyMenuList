@@ -13,7 +13,7 @@ export async function getUserMenus() {
     where: {
       userId: session?.user?.id
     }, orderBy: {
-      createdAt: 'desc'
+      createdAt: 'asc'
     }
   })
 
@@ -36,4 +36,19 @@ export async function createMenu(input: z.infer<typeof upsertMenu>) {
   })
 
   return menu
+}
+
+export const DeleteMenu = async (id: string) => {
+  const session = await auth()
+
+  if (!session?.user?.id) {
+    throw new Error("User not authenticated")
+  }
+
+  await prisma.menus.delete({
+    where: {
+      id,
+    }
+  })
+
 }

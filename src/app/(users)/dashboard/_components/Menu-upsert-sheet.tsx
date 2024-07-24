@@ -20,6 +20,7 @@ import { z } from "zod";
 
 import { createMenu } from "../../actions"
 import { useRef } from "react";
+import { LoaderCircle } from "lucide-react";
 
 type FormValues = z.infer<typeof upsertMenu>
 
@@ -31,13 +32,14 @@ export const MenuUpsertSheet = ({ children }: MenuUpsertSheetProps) => {
   const router = useRouter()
   const ref = useRef<HTMLDivElement>(null)
 
-  const { register, handleSubmit, formState: { errors } } = useForm<FormValues>({
+  const { register, handleSubmit, reset, formState: { errors, isSubmitting } } = useForm<FormValues>({
     resolver: zodResolver(upsertMenu)
   });
 
   const onSubmit: SubmitHandler<FormValues> = (async (data) => {
     await createMenu(data)
     router.refresh()
+    reset()
   })
 
   return (
@@ -47,7 +49,7 @@ export const MenuUpsertSheet = ({ children }: MenuUpsertSheetProps) => {
           {children}
         </div>
       </SheetTrigger>
-      <SheetContent>
+      <SheetContent className="bg-zinc-200">
         <SheetHeader>
           <SheetTitle>Adicionar um cardápio?</SheetTitle>
           <SheetDescription>
@@ -61,12 +63,20 @@ export const MenuUpsertSheet = ({ children }: MenuUpsertSheetProps) => {
               id="title"
               type="text"
               placeholder="Menu Principal"
+              className="bg-zinc-200 border-muted-foreground ring-offset-zinc-200"
               {...register("title")}
             />
+            {errors.title && <p className="text-red-400 text-sm">{errors.title.message}</p>}
           </div>
-          <Button type="submit" className="w-fit self-end ring-offset-zinc-900 focus-visible:ring-zinc-400">Salvar</Button>
+          <Button
+            type="submit"
+            disabled={isSubmitting}
+            className={`w-fit self-end gap-x-2 ring-offset-zinc-900 focus-visible:ring-zinc-400 disabled:pointer-events-auto disabled:cursor-not-allowed `}
+          >
+            {isSubmitting ? <><LoaderCircle className="animate-spin" /> Salvando</> : 'Salvar'}
+          </Button>
         </form>
       </SheetContent>
-    </Sheet >
+    </Sheet>
   )
 }
