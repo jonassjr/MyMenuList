@@ -44,8 +44,7 @@ export const IngredientInput = () => {
         name="Ingredients"
         type="text"
         placeholder="Adicione ingredientes"
-        className="w-full bg-zinc-800 placeholder:text-zinc-400 border 
-        ring-offset-zinc-800 focus-visible:ring-zinc-300 border-gray-300 rounded-md px-4 py-2"
+        className="w-full rounded-md px-4 py-2"
         onKeyDown={handleKeyPress}
         onChange={handleInputChange}
         value={userInput}
@@ -58,7 +57,7 @@ export const IngredientInput = () => {
           <span
             key={`${index}-${tag}`}
             className="inline-flex items-start justify-start px-3 py-2 rounded-[32px] 
-            text-sm shadow-sm bg-zinc-800 border text-zinc-200 "
+            text-sm shadow-sm bg-border"
           >
             {tag}
             <button

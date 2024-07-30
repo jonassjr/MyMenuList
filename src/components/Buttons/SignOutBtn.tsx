@@ -12,9 +12,8 @@ export const SignOutBtn = () => {
 
   return (
     <Button
-      variant={"secondary"}
       onClick={handleSignOut}
-      className="w-full bg-transparent justify-between text-zinc-800"
+      className="w-full bg-zinc-800 justify-between rounded-sm text-zinc-100 hover:bg-zinc-700"
     >
       <LogOut />
       Sair

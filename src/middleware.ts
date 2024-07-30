@@ -5,14 +5,14 @@ export default function middleware(request: NextRequest) {
   const token = request.cookies.get('authjs.session-token')
   const pathName = request.nextUrl.pathname
 
-  const dashboardPath = new URL('/dashboard', request.url)
+  const homePath = new URL('/home', request.url)
   const loginPath = new URL('/login', request.url)
 
   if (pathName === "/login" && token) {
-    return NextResponse.redirect(dashboardPath)
+    return NextResponse.redirect(homePath)
   }
 
-  const protectedRoutes = ["/dashboard", "/edit", "/settings", "/upgrade"]
+  const protectedRoutes = ["/home", "/dashboard", "/edit", "/settings", "/upgrade"]
   const isProtectedRoute = protectedRoutes.some(route => pathName.startsWith(route))
 
   if (isProtectedRoute && !token) {

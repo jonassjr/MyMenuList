@@ -1,3 +1,5 @@
+"use client"
+
 import { Input } from "@/components/ui/input"
 
 import {
@@ -8,21 +10,17 @@ import {
   SelectValue,
 } from "@/components/ui/select"
 
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog"
-
 import { Plus, Search } from "lucide-react"
-import { ItemForm } from "@/components/forms/ItemForm"
+
+import Link from "next/link"
+import { usePathname } from "next/navigation"
 
 const array = [1, 2, 3]
 
 export default function EditMenuPage() {
+
+  const path = usePathname()
+
   return (
     <main className="flex flex-col">
       <div className="flex flex-col gap-y-2">
@@ -55,36 +53,18 @@ export default function EditMenuPage() {
         </div>
 
         <section className="grid grid-cols-1 sm:grid-cols-2 min-[1200px]:grid-cols-3 gap-6">
-          <article className="flex flex-col gap-y-2 ">
-            <Dialog>
-              <DialogTrigger asChild>
-                <div className="w-full h-[220px] border-2 rounded-md border-dashed border-zinc-400 
-                  flex flex-col items-center justify-center cursor-pointer">
-                  <Plus size={52} className="text-zinc-600 text-center" />
-                  <p className="muted-foreground">Adicionar um novo item</p>
-                </div>
-              </DialogTrigger>
-              <DialogContent className="max-w-5xl max-h-[90vh] bg-zinc-900 p-0 text-white border-none gap-y-4 overflow-y-auto custom-scrollbar">
-                <div className="max-w-3xl flex flex-col gap-y-8 p-8 bg-zinc-800">
-                  <DialogHeader>
-                    <DialogTitle className="">Adicionar item</DialogTitle>
-                    <DialogDescription className="text-zinc-500">
-                      Aqui você pode adicionar item ao seu menu.
-                    </DialogDescription>
-                  </DialogHeader>
-
-                  <ItemForm />
-
-                </div>
-
-              </DialogContent>
-            </Dialog>
+          <Link href={`${path}/register-item`} className="flex flex-col gap-y-2 ">
+            <div className="w-full h-[220px] border-2 rounded-md border-dashed border-zinc-400 
+              flex flex-col items-center justify-center cursor-pointer">
+              <Plus size={52} className="text-zinc-600 text-center" />
+              <p className="muted-foreground">Adicionar um novo item</p>
+            </div>
 
             <div className="flex flex-col text-zinc-900" >
               <h2 className="font-medium">Novo item</h2>
               <p className="text-sm">Adicione um novo item ao seu cardápio.</p>
             </div>
-          </article>
+          </Link>
 
           {array.map((item, i) => (
             <article key={i}
@@ -99,7 +79,7 @@ export default function EditMenuPage() {
           ))}
 
         </section>
-      </div>
+      </div >
     </main >
   )
 }

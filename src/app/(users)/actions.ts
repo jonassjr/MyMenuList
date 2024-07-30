@@ -4,6 +4,7 @@ import { auth } from "@/services/auth"
 import prisma from "@/services/database"
 import { z } from 'zod'
 import { upsertMenu } from "./schema"
+import { createSlug } from "@/lib/utils"
 
 export async function getUserMenus() {
 
@@ -28,10 +29,13 @@ export async function createMenu(input: z.infer<typeof upsertMenu>) {
     throw new Error("User not authenticated")
   }
 
+  const slug = createSlug(input.title)
+
   const menu = await prisma.menus.create({
     data: {
       title: input.title,
-      userId: session.user.id
+      userId: session.user.id,
+      slug: slug
     }
   })
 

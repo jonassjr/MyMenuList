@@ -41,7 +41,6 @@ export const TagInput = () => {
 
   return (
     <div className="flex flex-col w-full">
-
       <Input
         name="tags"
         type="text"
@@ -50,8 +49,7 @@ export const TagInput = () => {
             ? "Adicone uma tag"
             : `Você só pode adicionar ${maxTags} tags`
         }
-        className="w-full bg-zinc-800 placeholder:text-zinc-400 border 
-        ring-offset-zinc-800 focus-visible:ring-zinc-300 border-gray-300 rounded-md px-4 py-2"
+        className="w-full rounded-md px-4 py-2"
         onKeyDown={handleKeyPress}
         onChange={handleInputChange}
         value={userInput}
@@ -65,7 +63,7 @@ export const TagInput = () => {
           <span
             key={`${index}-${tag}`}
             className="inline-flex items-start justify-start px-3 py-2 rounded-[32px] 
-            text-sm shadow-sm bg-zinc-800 border text-zinc-200 "
+            text-sm shadow-sm bg-white bg-border "
           >
             {tag}
             <button

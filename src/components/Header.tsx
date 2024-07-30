@@ -1,37 +1,46 @@
-import { CircleUser, Menu } from "lucide-react"
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "./ui/dropdown-menu"
+"use client"
+
 import {
-  Avatar,
-  AvatarFallback,
-  AvatarImage,
-} from "./ui/avatar"
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+} from "@/components/ui/breadcrumb"
+import { Home } from "lucide-react"
 
-import { auth } from "@/services/auth"
+import { usePathname } from "next/navigation"
 
-import { SignOutBtn } from "./Buttons/SignOutBtn"
+export const Header = () => {
+  const pathName = usePathname()
 
-export const Header = async () => {
+  const paths = pathName.split("/").filter(Boolean)
 
-  const session = await auth()
-  const userImage = session?.user?.image ?? undefined;
+  console.log(paths)
 
   return (
-    <header className="sticky top-0 flex justify-end w-full py-4 px-6 bg-zinc-200 border-b border-zinc-800 z-10">
-      <DropdownMenu>
-        <DropdownMenuTrigger className="flex py-2 px-4 rounded gap-x-4 bg-primary text-white ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-900 focus-visible:ring-offset-2 focus-visible:ring-offset-zinc-300">
-          <Menu size={28} />
-          <Avatar className="w-7 h-7">
-            <AvatarImage src={userImage} alt="profile image" />
-            <AvatarFallback className="bg-transparent"><CircleUser size={28} /></AvatarFallback>
-          </Avatar>
-        </DropdownMenuTrigger>
-        <DropdownMenuContent align="end" sideOffset={8}>
-          <DropdownMenuItem className="p-0">
-            <SignOutBtn />
-          </DropdownMenuItem>
-        </DropdownMenuContent>
+    <header className="sticky top-0 flex w-full py-6 bg-white border-b border-zinc-300 z-10">
+      <Breadcrumb>
+        <BreadcrumbList>
+          <BreadcrumbItem>
+            <BreadcrumbLink href="/home"><Home /></BreadcrumbLink>
+          </BreadcrumbItem>
+          {paths.map((path, index) => {
+            const href = `/${paths.slice(0, index + 1).join("/")}`
+            return (
+              <span key={href} className="flex items-center gap-x-1.5">
+                <BreadcrumbSeparator />
+                <BreadcrumbItem>
+                  {/* <BreadcrumbLink href={href}>{path}</BreadcrumbLink> */}
+                  <span>{path}</span>
+                </BreadcrumbItem>
+              </span>
+            )
+          })}
+        </BreadcrumbList>
+      </Breadcrumb>
 
-      </DropdownMenu>
     </header >
   )
 }

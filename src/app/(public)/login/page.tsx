@@ -9,7 +9,7 @@ import { signIn } from "next-auth/react"
 export default function LogIn() {
 
   const handleSignIn = async () => {
-    await signIn("google", { callbackUrl: "/dashboard" })
+    await signIn("google", { callbackUrl: "/home" })
   }
 
   return (

@@ -26,7 +26,7 @@ export const FileUploader = () => {
 
   return (
     <div {...getRootProps()}
-      className='relative bg-zinc-800 h-[220px] w-[344px] rounded-md border-2 border-dashed border-zinc-500 ring-offset-zinc-800 ring-offset-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-300 '
+      className='relative h-[220px] w-[344px] rounded-md border-2 border-dashed border-zinc-400 ring-offset-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-900 '
     >
       <input {...getInputProps()} className="focus:outline-none" />
       {
