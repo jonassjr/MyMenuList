@@ -49,7 +49,7 @@ export const MenuUpsertSheet = ({ children }: MenuUpsertSheetProps) => {
           {children}
         </div>
       </SheetTrigger>
-      <SheetContent className="bg-zinc-200">
+      <SheetContent>
         <SheetHeader>
           <SheetTitle>Adicionar um cardápio?</SheetTitle>
           <SheetDescription>
@@ -63,7 +63,6 @@ export const MenuUpsertSheet = ({ children }: MenuUpsertSheetProps) => {
               id="title"
               type="text"
               placeholder="Menu Principal"
-              className="bg-zinc-200 border-muted-foreground ring-offset-zinc-200"
               {...register("title")}
             />
             {errors.title && <p className="text-red-400 text-sm">{errors.title.message}</p>}
@@ -71,7 +70,7 @@ export const MenuUpsertSheet = ({ children }: MenuUpsertSheetProps) => {
           <Button
             type="submit"
             disabled={isSubmitting}
-            className={`w-fit self-end gap-x-2 ring-offset-zinc-900 focus-visible:ring-zinc-400 disabled:pointer-events-auto disabled:cursor-not-allowed `}
+            className={`w-fit self-end gap-x-2 disabled:pointer-events-auto disabled:cursor-not-allowed `}
           >
             {isSubmitting ? <><LoaderCircle className="animate-spin" /> Salvando</> : 'Salvar'}
           </Button>

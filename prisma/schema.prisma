@@ -63,13 +63,50 @@ model VerificationToken {
 }
 
 model Menus {
-  id        String   @id @default(cuid())
-  title     String
-  slug      String   @unique
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId    String
+  id         String       @id @default(cuid())
+  title      String
+  slug       String       @unique
+  createdAt  DateTime     @default(now())
+  updatedAt  DateTime     @updatedAt
+  user       User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId     String
+  coverImg   String
+  categories Categories[]
+  items      Items[]
 
   @@map("menus")
+}
+
+model Categories {
+  id        String   @id @default(cuid())
+  name      String   @unique
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  items     Items[]
+  Menus     Menus?   @relation(fields: [menusId], references: [id])
+  menusId   String?
+
+  @@map("categories")
+}
+
+model Items {
+  id           String     @id @default(cuid())
+  name         String
+  price        String
+  category     Categories @relation(fields: [categoriesId], references: [id])
+  tags         String
+  ingredients  String
+  description  String
+  availability Boolean
+  cautions     String
+  img          String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  categoriesId String
+  Menus        Menus?  @relation(fields: [menusId], references: [id])
+  menusId      String?
+
+  @@map("items")
 }

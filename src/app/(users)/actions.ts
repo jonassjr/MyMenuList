@@ -21,6 +21,18 @@ export async function getUserMenus() {
   return menus
 }
 
+export async function getMenuData(slug: string) {
+
+  const menu = await prisma.menus.findUnique({
+    where: {
+      slug: slug
+    }
+  })
+
+  return menu
+}
+
+
 export async function createMenu(input: z.infer<typeof upsertMenu>) {
 
   const session = await auth()
@@ -42,7 +54,7 @@ export async function createMenu(input: z.infer<typeof upsertMenu>) {
   return menu
 }
 
-export const DeleteMenu = async (id: string) => {
+export const DeleteMenu = async (slug: string) => {
   const session = await auth()
 
   if (!session?.user?.id) {
@@ -51,8 +63,43 @@ export const DeleteMenu = async (id: string) => {
 
   await prisma.menus.delete({
     where: {
-      id,
+      slug,
     }
   })
 
+}
+
+export const GetCategories = async (menuId: string) => {
+
+  const categories = await prisma.categories.findMany({
+    where: {
+      menusId: menuId
+    }
+  })
+
+  return categories
+}
+
+export const CreateCategory = async (name: string) => {
+  const session = await auth()
+
+  if (!session?.user?.id) {
+    throw new Error("User not authenticated")
+  }
+
+  const isAlreadyExist = await prisma.categories.findUnique({
+    where: {
+      name,
+    }
+  })
+
+  if (isAlreadyExist) throw new Error("Categoria já existe!")
+
+  const category = await prisma.categories.create({
+    data: {
+      name,
+    }
+  })
+
+  return category
 }

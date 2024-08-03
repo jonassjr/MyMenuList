@@ -1,3 +1,4 @@
+
 import { Label } from "@/components/ui/label"
 import { Input } from "@/components/ui/input"
 
@@ -5,7 +6,6 @@ import {
   Select,
   SelectContent,
   SelectItem,
-  SelectSeparator,
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select"
@@ -16,10 +16,16 @@ import { Button } from "@/components/ui/button"
 
 import { IngredientInput } from "@/components/IngredientInput"
 import { FileUploader } from "@/components/FileUploader"
-import { NewCategoryDialog } from "./_components/NewCategoryDialog"
-import { Plus } from "lucide-react"
+import { SelectCategory } from "./_components/SelectCategory"
+import { usePathname } from "next/navigation"
+import { getMenuData } from "@/app/(users)/actions"
 
-export default function RegisterItem() {
+export default async function RegisterItem({ params }: { params: { slug: string } }) {
+
+  const { slug } = params
+
+  const menu = await getMenuData(slug)
+
   return (
     <main className="">
       <header>
@@ -56,29 +62,13 @@ export default function RegisterItem() {
             </div>
           </div>
 
-          <div className="w-full flex flex-col gap-y-2">
-            <Label htmlFor="price" >Categoria</Label>
-            <Select>
-              <SelectTrigger >
-                <SelectValue placeholder="Categoria" />
-              </SelectTrigger>
-              <SelectContent >
-                <NewCategoryDialog>
-                  <Button
-                    variant={"ghost"}
-                    size={"sm"}
-                    className="text-muted-foreground w-full items-center gap-x-2">
-                    <Plus size={16} />
-                    Categoria
-                  </Button>
-                </NewCategoryDialog>
-                <SelectSeparator />
-                <SelectItem value="entradas" >Entradas</SelectItem>
-                <SelectItem value="prato-principal" >Pratos Principais</SelectItem>
-                <SelectItem value="acompanhamento" >Acompanhamentos</SelectItem>
-              </SelectContent>
-            </Select>
+          <div className="flex gap-x-2 items-center">
+            <div className="w-full flex flex-col gap-y-2">
+              <Label>Categoria</Label>
+              {menu && <SelectCategory menuId={menu?.slug} />}
+            </div>
           </div>
+
           <div className="w-full flex flex-col gap-y-2">
             <Label htmlFor="price" >Disponibilidade</Label>
             <Select>

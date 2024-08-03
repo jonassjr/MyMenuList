@@ -1,4 +1,3 @@
-"use client"
 
 import { Input } from "@/components/ui/input"
 
@@ -13,18 +12,28 @@ import {
 import { Plus, Search } from "lucide-react"
 
 import Link from "next/link"
-import { usePathname } from "next/navigation"
+import { getMenuData } from "../../actions"
 
 const array = [1, 2, 3]
 
-export default function EditMenuPage() {
+interface MenuProps {
+  id: string;
+  title: string;
+  slug: string;
+  createdAt: Date;
+  updatedAt: Date;
+  userId: string;
+}
 
-  const path = usePathname()
+export default async function EditMenuPage({ params }: { params: { slug: string } }) {
+
+  const { slug } = params
+  const menu = await getMenuData(slug)
 
   return (
     <main className="flex flex-col">
       <div className="flex flex-col gap-y-2">
-        <h1 className="text-4xl font-medium">Meu Cardápio</h1>
+        <h1 className="text-4xl font-medium">{menu?.title}</h1>
         <p className="text-base text-muted-foreground">Aqui você pode editar seu cardápio</p>
       </div>
 
@@ -53,7 +62,7 @@ export default function EditMenuPage() {
         </div>
 
         <section className="grid grid-cols-1 sm:grid-cols-2 min-[1200px]:grid-cols-3 gap-6">
-          <Link href={`${path}/register-item`} className="flex flex-col gap-y-2 ">
+          <Link href={`${slug}/register-item`} className="flex flex-col gap-y-2 ">
             <div className="w-full h-[220px] border-2 rounded-md border-dashed border-zinc-400 
               flex flex-col items-center justify-center cursor-pointer">
               <Plus size={52} className="text-zinc-600 text-center" />

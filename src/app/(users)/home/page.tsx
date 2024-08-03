@@ -3,8 +3,6 @@ import Link from "next/link";
 import { getUserMenus } from "../actions";
 import { MenuUpsertSheet } from "./_components/Menu-upsert-sheet";
 import { Button } from "@/components/ui/button";
-import { Edit2, Trash2 } from "lucide-react";
-import { createSlug } from "@/lib/utils";
 
 export default async function Home() {
 
@@ -27,7 +25,7 @@ export default async function Home() {
       <section className="my-10 flex flex-wrap gap-16">
 
         {!menus.length ? (
-          <div className="w-full pt-8 border-t border-zinc-600 text-muted-foreground">
+          <div className="w-full pt-8 border-t border-border text-muted-foreground">
             <p className="max-w-md"> Você não possui cardápios adicione um menu e edite-o conforme desejar</p>
           </div>
         ) : (

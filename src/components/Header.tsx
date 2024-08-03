@@ -17,10 +17,8 @@ export const Header = () => {
 
   const paths = pathName.split("/").filter(Boolean)
 
-  console.log(paths)
-
   return (
-    <header className="sticky top-0 flex w-full py-6 bg-white border-b border-zinc-300 z-10">
+    <header className="sticky top-0 flex w-full py-6 bg-white border-b border-border z-10">
       <Breadcrumb>
         <BreadcrumbList>
           <BreadcrumbItem>
