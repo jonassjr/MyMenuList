@@ -13,6 +13,7 @@ import { Plus, Search } from "lucide-react"
 
 import Link from "next/link"
 import { getMenuData } from "../../actions"
+import { CoverImgUploader } from "./_components/coverImgUploader"
 
 const array = [1, 2, 3]
 
@@ -28,6 +29,7 @@ interface MenuProps {
 export default async function EditMenuPage({ params }: { params: { slug: string } }) {
 
   const { slug } = params
+
   const menu = await getMenuData(slug)
 
   return (
@@ -38,7 +40,9 @@ export default async function EditMenuPage({ params }: { params: { slug: string 
       </div>
 
       <div className="flex flex-col gap-y-8 my-6">
-        <div className="w-full h-[22rem] bg-zinc-300 rounded-md border-zinc-500 border-2 border-dashed"></div>
+        <div className="">
+          {menu && <CoverImgUploader menuId={menu?.id} initialCoverImg={menu.coverImg ?? undefined} />}
+        </div>
 
         <div className="w-full flex justify-between">
           <div className="relative">

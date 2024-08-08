@@ -15,9 +15,8 @@ import { TagInput } from "@/components/TagInput"
 import { Button } from "@/components/ui/button"
 
 import { IngredientInput } from "@/components/IngredientInput"
-import { FileUploader } from "@/components/FileUploader"
+import { ItemImgUploader } from "@/app/(users)/edit/[slug]/register-item/_components/ItemImgUploader"
 import { SelectCategory } from "./_components/SelectCategory"
-import { usePathname } from "next/navigation"
 import { getMenuData } from "@/app/(users)/actions"
 
 export default async function RegisterItem({ params }: { params: { slug: string } }) {
@@ -34,7 +33,7 @@ export default async function RegisterItem({ params }: { params: { slug: string 
       <form action="" className="flex flex-col gap-y-8 my-8">
 
         <section className="">
-          <FileUploader />
+          <ItemImgUploader />
         </section>
 
         <section className="w-full grid grid-cols-2 gap-4">
@@ -65,7 +64,7 @@ export default async function RegisterItem({ params }: { params: { slug: string 
           <div className="flex gap-x-2 items-center">
             <div className="w-full flex flex-col gap-y-2">
               <Label>Categoria</Label>
-              {menu && <SelectCategory menuId={menu?.slug} />}
+              {menu && <SelectCategory menuId={menu?.id} />}
             </div>
           </div>
 

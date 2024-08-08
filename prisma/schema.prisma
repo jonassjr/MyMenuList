@@ -70,7 +70,7 @@ model Menus {
   updatedAt  DateTime     @updatedAt
   user       User         @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId     String
-  coverImg   String
+  coverImg   String?
   categories Categories[]
   items      Items[]
 

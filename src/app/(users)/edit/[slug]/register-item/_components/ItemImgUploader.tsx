@@ -11,15 +11,15 @@ type PreviewFile = {
   preview: string;
 };
 
-export const FileUploader = () => {
-  const [files, setFiles] = useState<PreviewFile[]>([]);
+export const ItemImgUploader = () => {
+  const [itemImg, setItemImg] = useState<PreviewFile[]>([]);
 
   const onDrop = useCallback((acceptedFiles: File[]) => {
     const newFiles = acceptedFiles.map(file => ({
       file,
       preview: convertFilesToUrl(file)
     }));
-    setFiles(newFiles)
+    setItemImg(newFiles)
   }, []);
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop })
@@ -30,9 +30,9 @@ export const FileUploader = () => {
     >
       <input {...getInputProps()} className="focus:outline-none" />
       {
-        files && files.length > 0 ? (
+        itemImg && itemImg.length > 0 ? (
           <Image
-            src={files[0].preview}
+            src={itemImg[0].preview}
             fill
             object-fit="cover"
             alt="image uploaded"

@@ -32,7 +32,6 @@ export async function getMenuData(slug: string) {
   return menu
 }
 
-
 export async function createMenu(input: z.infer<typeof upsertMenu>) {
 
   const session = await auth()
@@ -73,14 +72,14 @@ export const GetCategories = async (menuId: string) => {
 
   const categories = await prisma.categories.findMany({
     where: {
-      menusId: menuId
+      menusId: menuId,
     }
   })
 
   return categories
 }
 
-export const CreateCategory = async (name: string) => {
+export const CreateCategory = async (name: string, menuId: string) => {
   const session = await auth()
 
   if (!session?.user?.id) {
@@ -98,8 +97,33 @@ export const CreateCategory = async (name: string) => {
   const category = await prisma.categories.create({
     data: {
       name,
+      menusId: menuId,
     }
   })
 
   return category
+}
+
+export const CreateItem = async () => {
+  const session = await auth()
+
+  if (!session?.user?.id) {
+    throw new Error("User not authenticated")
+  }
+}
+
+export const updateCoverImg = async (menuId: string, coverImgUrl: string) => {
+  const session = await auth()
+
+  if (!session?.user?.id) {
+    throw new Error("User not authenticated")
+  }
+
+
+  const menu = await prisma.menus.update({
+    where: { id: menuId },
+    data: { coverImg: coverImgUrl }
+  })
+
+  return menu
 }

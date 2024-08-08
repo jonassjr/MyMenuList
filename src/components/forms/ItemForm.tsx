@@ -28,7 +28,7 @@ import {
 
 
 import { IngredientInput } from "../IngredientInput";
-import { FileUploader } from "../FileUploader";
+import { FileUploader } from "../../app/(users)/edit/[slug]/register-item/_components/ItemImgUploader";
 import { Save } from "lucide-react";
 
 

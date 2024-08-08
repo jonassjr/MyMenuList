@@ -15,10 +15,13 @@ import { usePathname } from "next/navigation"
 export const Header = () => {
   const pathName = usePathname()
 
-  const paths = pathName.split("/").filter(Boolean)
+  const paths = pathName
+    .split("/")
+    .filter(Boolean)
+    .map(part => part.replace(/-/g, " "))
 
   return (
-    <header className="sticky top-0 flex w-full py-6 bg-white border-b border-border z-10">
+    <header className="sticky top-0 flex w-full py-6 bg-white border-b border-border z-20">
       <Breadcrumb>
         <BreadcrumbList>
           <BreadcrumbItem>
@@ -38,7 +41,6 @@ export const Header = () => {
           })}
         </BreadcrumbList>
       </Breadcrumb>
-
-    </header >
+    </header>
   )
 }

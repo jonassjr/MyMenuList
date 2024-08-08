@@ -1,6 +1,6 @@
 "use client"
 
-import { Button } from "@/components/ui/button"
+import { useRouter } from "next/navigation"
 
 import {
   Popover,
@@ -9,6 +9,10 @@ import {
 } from "@/components/ui/popover"
 
 import {
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
   Dialog,
   DialogTrigger,
 } from "@/components/ui/dialog"
@@ -23,11 +27,17 @@ import {
   CommandSeparator,
 } from "@/components/ui/command"
 
-import { CheckIcon, ChevronsUpDown, PlusCircle } from "lucide-react"
+import { Button } from "@/components/ui/button"
+
+import { Label } from "@/components/ui/label"
+import { Input } from "@/components/ui/input"
+
+import { CheckIcon, ChevronsUpDown, LoaderCircle, PlusCircle } from "lucide-react"
 
 import { useEffect, useState } from "react"
-import { NewCategoryDialog } from "./NewCategoryDialog"
-import { GetCategories } from "@/app/(users)/actions"
+import { CreateCategory, GetCategories } from "@/app/(users)/actions"
+
+import { SubmitHandler, useForm } from "react-hook-form"
 
 interface FormValues {
   category: string
@@ -45,8 +55,26 @@ interface SelectCategoryProps {
   menuId: string;
 }
 
-// const categories = [{ id: 1, name: "bebidas" }, { id: 2, name: "Saladas" }, { id: 3, name: "Churrasco" },]
 export const SelectCategory = ({ menuId }: SelectCategoryProps) => {
+
+  const router = useRouter()
+
+  const { register, handleSubmit, reset, setError, formState: { isSubmitting, isSubmitted, errors } } = useForm<FormValues>()
+
+  const onSubmit: SubmitHandler<FormValues> = async (data) => {
+    const { category } = data
+
+    try {
+      await CreateCategory(category, menuId)
+      reset()
+      router.refresh()
+
+    } catch (error) {
+      if (error instanceof Error) {
+        setError("category", { type: "manual", message: error.message })
+      }
+    }
+  }
 
   const [selectCategory, setSelectCategory] = useState<string>("")
   const [categories, setCategories] = useState<CategoriesProps[] | null>(null)
@@ -58,7 +86,7 @@ export const SelectCategory = ({ menuId }: SelectCategoryProps) => {
     }
 
     fetchCategories()
-  }, [])
+  }, [isSubmitted])
 
   return (
 
@@ -89,7 +117,7 @@ export const SelectCategory = ({ menuId }: SelectCategoryProps) => {
                     <CheckIcon
                       size={16}
                       className={`ml-auto
-                      ${selectCategory === "Bebidas"
+                      ${selectCategory === category.name
                           ? "opacity-100"
                           : "opacity-0"}`}
                     />
@@ -111,7 +139,34 @@ export const SelectCategory = ({ menuId }: SelectCategoryProps) => {
           </Command>
         </PopoverContent>
       </Popover>
-      <NewCategoryDialog />
+      <DialogContent className="w-full">
+        <DialogHeader>
+          <DialogTitle>Adicionar Categoria?</DialogTitle>
+          <DialogDescription>
+            Crie uma nova cateogoria que melhor se encaixa na descrição do seu item.
+          </DialogDescription>
+        </DialogHeader>
+        <form onSubmit={handleSubmit(onSubmit)} className="mt-2 flex flex-col gap-y-4">
+          <div className="flex flex-col gap-y-3">
+            <Label htmlFor="category" className="">Nome da Categoria</Label>
+            <Input
+              id="category"
+              type="text"
+              placeholder="Menu Principal"
+              {...register("category")}
+            />
+            {errors.category && <p className="text-red-400 text-sm">{errors.category.message}</p>}
+
+          </div>
+          <Button
+            type="submit"
+            disabled={isSubmitting}
+            className="w-fit self-end gap-x-2 disabled:pointer-events-auto disabled:cursor-not-allowed "
+          >
+            {isSubmitting ? <><LoaderCircle className="animate-spin" /> Salvando</> : 'Salvar'}
+          </Button>
+        </form>
+      </DialogContent>
     </Dialog >
   )
 }
