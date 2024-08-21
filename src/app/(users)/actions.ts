@@ -3,7 +3,7 @@
 import { auth } from "@/services/auth"
 import prisma from "@/services/database"
 import { z } from 'zod'
-import { upsertMenu } from "./schema"
+import { menuItem, updateMenuItem, upsertMenu } from "./schema"
 import { createSlug } from "@/lib/utils"
 
 export async function getUserMenus() {
@@ -26,6 +26,21 @@ export async function getMenuData(slug: string) {
   const menu = await prisma.menus.findUnique({
     where: {
       slug: slug
+    }, include: {
+      items: {
+        select: {
+          id: true,
+          name: true,
+          price: true,
+          img: true,
+          category: true,
+          availability: true,
+          ingredients: true,
+          tags: true,
+          cautions: true,
+          description: true
+        }
+      }
     }
   })
 
@@ -40,7 +55,7 @@ export async function createMenu(input: z.infer<typeof upsertMenu>) {
     throw new Error("User not authenticated")
   }
 
-  const slug = createSlug(input.title)
+  const slug = createSlug(input.title, session?.user?.id)
 
   const menu = await prisma.menus.create({
     data: {
@@ -104,14 +119,6 @@ export const CreateCategory = async (name: string, menuId: string) => {
   return category
 }
 
-export const CreateItem = async () => {
-  const session = await auth()
-
-  if (!session?.user?.id) {
-    throw new Error("User not authenticated")
-  }
-}
-
 export const updateCoverImg = async (menuId: string, coverImgUrl: string) => {
   const session = await auth()
 
@@ -126,4 +133,95 @@ export const updateCoverImg = async (menuId: string, coverImgUrl: string) => {
   })
 
   return menu
+}
+
+export const upsertItem = async (data: z.infer<typeof menuItem>, menuId: string) => {
+  const { itemImg, name, price, category, availability, ingredients, description, cautions, tags } = data
+
+  const session = await auth()
+
+  if (!session?.user?.id) {
+    throw new Error("User not authenticated")
+  }
+
+  const newItem = await prisma.items.create({
+    data: {
+      img: itemImg,
+      name,
+      price,
+      category: {
+        connect: {
+          id: category
+        }
+      },
+      availability,
+      ingredients: JSON.stringify(ingredients),
+      description,
+      cautions,
+      tags: JSON.stringify(tags),
+      Menus: {
+        connect: {
+          id: menuId
+        }
+      }
+    }
+  })
+
+  return newItem
+}
+
+
+export const updateItem = async (data: z.infer<typeof updateMenuItem>, itemId: string) => {
+
+  const { itemImg, name, price, category, availability, ingredients, description, cautions, tags } = data
+
+  const itemAlreadyExist = await prisma.items.findUnique({
+    where: {
+      id: itemId,
+    }
+  })
+
+  if (!itemAlreadyExist) throw new Error("Item não encontrado.")
+
+  const updatedItem = await prisma.items.update({
+    where: {
+      id: itemAlreadyExist.id
+    },
+    data: {
+      img: itemImg,
+      name,
+      price,
+      category: {
+        connect: {
+          name: category
+        }
+      },
+      availability,
+      ingredients: JSON.stringify(ingredients),
+      description,
+      cautions,
+      tags: JSON.stringify(tags),
+    }
+  })
+
+  return updatedItem;
+}
+
+export const getItemById = async (id: string) => {
+  const session = await auth()
+
+  if (!session?.user?.id) {
+    throw new Error("User not authenticated")
+  }
+
+  const item = await prisma.items.findUnique({
+    where: {
+      id,
+    },
+    include: {
+      category: true
+    }
+  })
+
+  return item
 }

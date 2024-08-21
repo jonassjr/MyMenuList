@@ -5,7 +5,6 @@ import { Button } from '@/components/ui/button'
 import { uploadImage, deleteImage } from '@/lib/supabase/upload'
 import { Edit, ImagePlus, LoaderCircle } from 'lucide-react'
 import Image from 'next/image'
-import { useRouter } from 'next/navigation'
 import React, { useCallback, useState } from 'react'
 import { useDropzone } from 'react-dropzone'
 import { useForm } from 'react-hook-form'
@@ -69,10 +68,10 @@ export const CoverImgUploader = ({ menuId, initialCoverImg }: CoverImgUploaderPr
     <section className="flex flex-col gap-y-8">
 
       <div {...getRootProps()}
-        className={`relative w-full h-[22rem] rounded-md  ${coverImg ? "" : "border-2 border-dashed border-zinc-400"} ring-offset-2 
-        focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-900 `}
+        className={`relative w-full h-[22rem] rounded-md  ${coverImg[0] ? "" : "border-2 border-dashed border-zinc-400"} ring-offset-2 
+        focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-900 overflow-hidden `}
       >
-        {coverImg &&
+        {coverImg[0] &&
           <span className='transition-all absolute top-4 right-4 w-12 h-12 rounded-full bg-zinc-100 cursor-pointer 
           hover:bg-zinc-200 z-10 grid place-content-center'>
             <Edit size={22} className="text-zinc-800" />
@@ -84,9 +83,8 @@ export const CoverImgUploader = ({ menuId, initialCoverImg }: CoverImgUploaderPr
             <Image
               src={coverImg[0].preview}
               fill
-              object-fit="cover"
               alt="image uploaded"
-              className="rounded-md"
+              className="object-cover"
             />
           ) : (
             <div className="text-center flex flex-col justify-center items-center h-full gap-y-2 p-2">

@@ -14,6 +14,7 @@ import { Plus, Search } from "lucide-react"
 import Link from "next/link"
 import { getMenuData } from "../../actions"
 import { CoverImgUploader } from "./_components/coverImgUploader"
+import Image from "next/image"
 
 const array = [1, 2, 3]
 
@@ -31,6 +32,7 @@ export default async function EditMenuPage({ params }: { params: { slug: string 
   const { slug } = params
 
   const menu = await getMenuData(slug)
+  const items = menu?.items
 
   return (
     <main className="flex flex-col">
@@ -66,31 +68,37 @@ export default async function EditMenuPage({ params }: { params: { slug: string 
         </div>
 
         <section className="grid grid-cols-1 sm:grid-cols-2 min-[1200px]:grid-cols-3 gap-6">
-          <Link href={`${slug}/register-item`} className="flex flex-col gap-y-2 ">
-            <div className="w-full h-[220px] border-2 rounded-md border-dashed border-zinc-400 
-              flex flex-col items-center justify-center cursor-pointer">
-              <Plus size={52} className="text-zinc-600 text-center" />
-              <p className="muted-foreground">Adicionar um novo item</p>
-            </div>
+          <article className="flex flex-col gap-y-2 ">
+
+            <Link href={`${slug}/register-item`} >
+              <div className="w-full h-[220px] border-2 rounded-md border-dashed border-zinc-400 
+                flex flex-col items-center justify-center cursor-pointer">
+                <Plus size={52} className="text-zinc-600 text-center" />
+                <p className="muted-foreground">Adicionar um novo item</p>
+              </div>
+            </Link>
 
             <div className="flex flex-col text-zinc-900" >
               <h2 className="font-medium">Novo item</h2>
               <p className="text-sm">Adicione um novo item ao seu cardápio.</p>
             </div>
-          </Link>
+          </article>
 
-          {array.map((item, i) => (
-            <article key={i}
-              className="flex flex-col gap-y-2">
-              <div className="w-full h-[220px] bg-zinc-300 rounded-md">
-              </div>
+
+          {items && items.map((item) => (
+            <article className="flex flex-col gap-y-2" key={item.id}>
+              <Link href={`${slug}/${item.id}`} >
+                <div className="relative w-full h-[220px] bg-zinc-300 rounded-md overflow-hidden">
+                  <Image src={item.img} fill className="object-cover" alt={`imagem do item ${item.name}`} />
+                </div>
+              </Link>
+
               <div className="flex flex-col text-zinc-900" >
-                <h2 className="font-medium">Nome do prato {item}</h2>
-                <p className="text-sm">Descrição simples e pequena sobre o prato.</p>
+                <h2 className="font-medium">{item.name}</h2>
+                <p className="text-sm">{item.description}</p>
               </div>
             </article>
           ))}
-
         </section>
       </div >
     </main >

@@ -52,10 +52,12 @@ interface CategoriesProps {
 }
 
 interface SelectCategoryProps {
-  menuId: string;
+  menuId: string
+  onChange: (value: string) => void
+  defaultValue: string | undefined
 }
 
-export const SelectCategory = ({ menuId }: SelectCategoryProps) => {
+export const SelectCategory = ({ menuId, onChange, defaultValue }: SelectCategoryProps) => {
 
   const router = useRouter()
 
@@ -76,8 +78,9 @@ export const SelectCategory = ({ menuId }: SelectCategoryProps) => {
     }
   }
 
-  const [selectCategory, setSelectCategory] = useState<string>("")
+  const [categorySelected, setCategorySelected] = useState<string>("")
   const [categories, setCategories] = useState<CategoriesProps[] | null>(null)
+  const [open, setOpen] = useState(false)
 
   useEffect(() => {
     const fetchCategories = async () => {
@@ -85,17 +88,20 @@ export const SelectCategory = ({ menuId }: SelectCategoryProps) => {
       setCategories(categories)
     }
 
+    if (defaultValue) {
+      setCategorySelected(defaultValue)
+    }
+
     fetchCategories()
-  }, [isSubmitted])
+  }, [isSubmitted, defaultValue])
 
   return (
 
-    <Dialog>
-      <Popover >
+    <Dialog >
+      <Popover open={open} onOpenChange={setOpen}>
         <PopoverTrigger asChild className="w-full">
-
-          <Button variant={"outline"} role="combobox" className={`justify-between w-full font-normal text-muted-foreground ${selectCategory && "text-zinc-900"}`}>
-            {selectCategory !== "" ? selectCategory : "Categoria"}
+          <Button variant={"outline"} role="combobox" className={`justify-between w-full font-normal text-muted-foreground ${categorySelected && "text-zinc-900"}`}>
+            {categorySelected !== "" ? categorySelected : "Categoria"}
             <ChevronsUpDown size={16} />
           </Button>
 
@@ -110,14 +116,16 @@ export const SelectCategory = ({ menuId }: SelectCategoryProps) => {
                   <CommandItem
                     key={category.id}
                     onSelect={() => {
-                      setSelectCategory(category.name)
+                      setCategorySelected(category.name)
+                      onChange(category.name)
+                      setOpen(false)
                     }}
                   >
                     {category.name}
                     <CheckIcon
                       size={16}
                       className={`ml-auto
-                      ${selectCategory === category.name
+                      ${categorySelected === category.name
                           ? "opacity-100"
                           : "opacity-0"}`}
                     />

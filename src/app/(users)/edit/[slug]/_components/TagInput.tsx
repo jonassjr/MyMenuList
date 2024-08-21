@@ -1,22 +1,33 @@
 "use client"
 
-import { useState, ChangeEvent } from "react";
-import { Input } from "./ui/input";
+import { useState, ChangeEvent, useEffect } from "react";
+import { Input } from "../../../../../components/ui/input";
 
 const maxTags = 5
 
-export const TagInput = () => {
+interface TagInputProps {
+  onChange: (tags: string[]) => void
+  defaultValue: string | undefined
+}
 
-  const [tags, setTags] = useState<string[]>([]);
+export const TagInput = ({ onChange, defaultValue }: TagInputProps) => {
+  const cleanedValues = defaultValue !== undefined ? JSON.parse(defaultValue) : []
+
+  const [tags, setTags] = useState<string[]>(cleanedValues);
 
   const handleAddTag = (newTag: string) => {
     if (newTag && !tags.includes(newTag) && tags.length < maxTags) {
-      setTags([...tags, newTag]);
+      const updatedTags = [...tags, newTag]
+      setTags(updatedTags)
+      onChange(updatedTags)
     }
   };
 
-  const handleRemoveTag = (tag: string) =>
-    setTags(tags.filter((t) => t !== tag));
+  const handleRemoveTag = (tag: string) => {
+    const updatedTags = tags.filter((t) => t !== tag)
+    setTags(updatedTags)
+    onChange(updatedTags)
+  }
 
   const [userInput, setUserInput] = useState<string>("");
 
@@ -63,7 +74,7 @@ export const TagInput = () => {
           <span
             key={`${index}-${tag}`}
             className="inline-flex items-start justify-start px-3 py-2 rounded-[32px] 
-            text-sm shadow-sm bg-white bg-border "
+            text-sm shadow-sm bg-border "
           >
             {tag}
             <button

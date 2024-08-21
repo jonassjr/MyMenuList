@@ -91,13 +91,13 @@ model Categories {
 
 model Items {
   id           String     @id @default(cuid())
-  name         String
+  name         String     @unique
   price        String
   category     Categories @relation(fields: [categoriesId], references: [id])
   tags         String
   ingredients  String
   description  String
-  availability Boolean
+  availability String
   cautions     String
   img          String
 
