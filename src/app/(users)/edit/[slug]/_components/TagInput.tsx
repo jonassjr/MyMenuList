@@ -7,7 +7,7 @@ const maxTags = 5
 
 interface TagInputProps {
   onChange: (tags: string[]) => void
-  defaultValue: string | undefined
+  defaultValue?: string | undefined
 }
 
 export const TagInput = ({ onChange, defaultValue }: TagInputProps) => {

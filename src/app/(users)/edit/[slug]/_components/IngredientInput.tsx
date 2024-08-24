@@ -5,7 +5,7 @@ import { Input } from "../../../../../components/ui/input";
 
 interface ingredientsInputProps {
   onChange: (ingrediens: string[]) => void
-  defaultValue: string | undefined
+  defaultValue?: string | undefined
 }
 
 export const IngredientInput = ({ onChange, defaultValue }: ingredientsInputProps) => {

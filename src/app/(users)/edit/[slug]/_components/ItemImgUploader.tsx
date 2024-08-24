@@ -1,6 +1,6 @@
 "use client"
 
-import { uploadImage } from '@/lib/supabase/upload'
+import { deleteImage, uploadImage } from '@/lib/supabase/upload'
 import { Edit, ImagePlus } from 'lucide-react'
 import Image from 'next/image'
 import React, { useCallback, useEffect, useState } from 'react'
@@ -14,7 +14,7 @@ type PreviewFile = {
 interface ItemImgUploaderProps {
   menuId: string
   initialItemImg?: string
-  onChange: (value: string) => void
+  onChange: (value: File) => void
 }
 
 export const ItemImgUploader = ({ menuId, onChange, initialItemImg }: ItemImgUploaderProps) => {
@@ -38,9 +38,7 @@ export const ItemImgUploader = ({ menuId, onChange, initialItemImg }: ItemImgUpl
     const fileToUpload = newFiles[0].file
     if (!fileToUpload) return
 
-    const itemImgUrl = await uploadImage(fileToUpload, `itemImg-${Date.now()}-${menuId}`)
-    console.log("imagem carregada: ", itemImgUrl)
-    onChange(itemImgUrl)
+    onChange(fileToUpload)
   }, []);
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop })

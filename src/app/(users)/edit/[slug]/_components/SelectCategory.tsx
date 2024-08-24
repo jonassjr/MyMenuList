@@ -54,7 +54,7 @@ interface CategoriesProps {
 interface SelectCategoryProps {
   menuId: string
   onChange: (value: string) => void
-  defaultValue: string | undefined
+  defaultValue?: string | undefined
 }
 
 export const SelectCategory = ({ menuId, onChange, defaultValue }: SelectCategoryProps) => {

@@ -22,7 +22,7 @@ import { SelectCategory } from "../../_components/SelectCategory"
 import { LoaderCircle } from "lucide-react"
 import { z } from "zod"
 import { menuItem } from "@/app/(users)/schema"
-import { updateItem, upsertItem } from "@/app/(users)/actions"
+import { createItem } from "@/app/(users)/actions"
 import { useRouter } from "next/navigation"
 import { useState } from "react"
 import { SubmitHandler, useForm } from "react-hook-form"
@@ -62,13 +62,10 @@ interface FormProps {
     coverImg: string | null
     items: ItemProps[]
   }
-  itemToEdit: ItemProps | null
 }
 
 
-export const Form = ({ menu, itemToEdit }: FormProps) => {
-  const [item, setItem] = useState<ItemProps | null>(itemToEdit || null)
-  const [availability, setAvailability] = useState<string>(item?.availability || '');
+export const Form = ({ menu }: FormProps) => {
 
   const { register, handleSubmit, setValue, reset, formState: { isSubmitting, errors } } = useForm<FormValues>({
     resolver: zodResolver(menuItem),
@@ -78,8 +75,7 @@ export const Form = ({ menu, itemToEdit }: FormProps) => {
 
   const onSubmit: SubmitHandler<FormValues> = async (data) => {
     if (!menu) return
-    const item = await upsertItem(data, menu.id)
-    if (itemToEdit) await updateItem(data)
+    await createItem(data, menu.id)
     reset()
     router.replace(`/edit/${menu.slug}`)
   }
@@ -109,8 +105,7 @@ export const Form = ({ menu, itemToEdit }: FormProps) => {
         {menu &&
           <ItemImgUploader
             menuId={menu?.id}
-            initialItemImg={item?.img}
-            onChange={(imgUrl: string) => setValue("itemImg", imgUrl)}
+            onChange={(imgFile: File) => setValue("imgFile", imgFile)}
           />
         }
       </section>
@@ -127,7 +122,6 @@ export const Form = ({ menu, itemToEdit }: FormProps) => {
             id="name"
             type="text"
             placeholder="Fettuccine com batata duchesse"
-            defaultValue={item?.name}
             {...register("name")}
           />
         </div>
@@ -143,7 +137,6 @@ export const Form = ({ menu, itemToEdit }: FormProps) => {
               id="price"
               type="text"
               placeholder="0,00"
-              defaultValue={item?.price}
               className="pl-8 "
               {...register("price", {
                 onChange: handlePriceChange
@@ -162,7 +155,6 @@ export const Form = ({ menu, itemToEdit }: FormProps) => {
               <SelectCategory
                 menuId={menu?.id}
                 onChange={(value: string) => setValue("category", value, { shouldValidate: true })}
-                defaultValue={item?.category.name}
               />
             }
           </div>
@@ -175,11 +167,9 @@ export const Form = ({ menu, itemToEdit }: FormProps) => {
 
           </Label>
           <Select
-            value={availability}
             onValueChange={
               (value: string) => {
                 setValue("availability", value, { shouldValidate: true })
-                setAvailability(value)
               }
             }
           >
@@ -201,7 +191,7 @@ export const Form = ({ menu, itemToEdit }: FormProps) => {
           </Label>
           <IngredientInput
             onChange={(ingredients: string[]) => setValue("ingredients", ingredients, { shouldValidate: true })}
-            defaultValue={item?.ingredients} />
+          />
         </div>
       </section>
 
@@ -214,7 +204,6 @@ export const Form = ({ menu, itemToEdit }: FormProps) => {
           <Textarea
             id="description"
             placeholder="Adicione uma descrição ao seu produto"
-            defaultValue={item?.description}
             {...register("description")}
           />
         </div>
@@ -227,7 +216,6 @@ export const Form = ({ menu, itemToEdit }: FormProps) => {
           <Textarea
             id="cautions"
             placeholder="Pode conter traços de nozes"
-            defaultValue={item?.cautions}
             {...register("cautions")}
           />
         </div>
@@ -238,7 +226,7 @@ export const Form = ({ menu, itemToEdit }: FormProps) => {
           <Label className="relative w-full">Tags
             {errors.tags && <p className="absolute top-0 right-0 text-red-400 text-xs">{errors.tags.message}</p>}
           </Label>
-          <TagInput onChange={(tags: string[]) => setValue("tags", tags, { shouldValidate: true })} defaultValue={item?.tags} />
+          <TagInput onChange={(tags: string[]) => setValue("tags", tags, { shouldValidate: true })} />
         </div>
       </section>
 

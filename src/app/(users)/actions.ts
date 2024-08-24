@@ -5,6 +5,7 @@ import prisma from "@/services/database"
 import { z } from 'zod'
 import { menuItem, updateMenuItem, upsertMenu } from "./schema"
 import { createSlug } from "@/lib/utils"
+import { deleteImage, uploadImage } from "@/lib/supabase/upload"
 
 export async function getUserMenus() {
 
@@ -135,8 +136,8 @@ export const updateCoverImg = async (menuId: string, coverImgUrl: string) => {
   return menu
 }
 
-export const upsertItem = async (data: z.infer<typeof menuItem>, menuId: string) => {
-  const { itemImg, name, price, category, availability, ingredients, description, cautions, tags } = data
+export const createItem = async (data: z.infer<typeof menuItem>, menuId: string) => {
+  const { imgUrl, name, price, category, availability, ingredients, description, cautions, tags } = data
 
   const session = await auth()
 
@@ -146,7 +147,7 @@ export const upsertItem = async (data: z.infer<typeof menuItem>, menuId: string)
 
   const newItem = await prisma.items.create({
     data: {
-      img: itemImg,
+      img: imgUrl,
       name,
       price,
       category: {
@@ -173,22 +174,28 @@ export const upsertItem = async (data: z.infer<typeof menuItem>, menuId: string)
 
 export const updateItem = async (data: z.infer<typeof updateMenuItem>, itemId: string) => {
 
-  const { itemImg, name, price, category, availability, ingredients, description, cautions, tags } = data
+  const { imgUrl, name, price, category, availability, ingredients, description, cautions, tags } = data
 
-  const itemAlreadyExist = await prisma.items.findUnique({
+  const itemToUpdate = await prisma.items.findUnique({
     where: {
       id: itemId,
     }
   })
 
-  if (!itemAlreadyExist) throw new Error("Item não encontrado.")
+  if (!itemToUpdate) throw new Error("Item não encontrado.")
+
+  if (imgUrl !== itemToUpdate.img) {
+    const oldFilePath = itemToUpdate.img.split("/").pop()
+    await deleteImage(`${oldFilePath}`)
+    console.log("deletado")
+  }
 
   const updatedItem = await prisma.items.update({
     where: {
-      id: itemAlreadyExist.id
+      id: itemToUpdate.id
     },
     data: {
-      img: itemImg,
+      img: imgUrl,
       name,
       price,
       category: {

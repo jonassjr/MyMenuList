@@ -21,12 +21,13 @@ import { SelectCategory } from "../../_components/SelectCategory"
 
 import { LoaderCircle } from "lucide-react"
 import { z } from "zod"
-import { menuItem, updateMenuItem } from "@/app/(users)/schema"
-import { updateItem, upsertItem } from "@/app/(users)/actions"
+import { updateMenuItem } from "@/app/(users)/schema"
+import { updateItem } from "@/app/(users)/actions"
 import { useRouter } from "next/navigation"
 import { useState } from "react"
 import { SubmitHandler, useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
+import { deleteImage, uploadImage } from "@/lib/supabase/upload"
 
 type FormValues = z.infer<typeof updateMenuItem>
 
@@ -72,12 +73,13 @@ export const EditItemForm = ({ menu, itemToEdit }: FormProps) => {
 
 
   const { register, handleSubmit, setValue, reset, formState: { isSubmitting, errors } } = useForm<FormValues>({
+
     defaultValues: {
       availability: item?.availability,
       category: item?.category.name,
       cautions: item?.cautions,
       description: item?.description,
-      itemImg: item?.img,
+      imgUrl: item?.img,
       name: item?.name,
       ingredients: item ? JSON.parse(item?.ingredients) : undefined,
       price: item?.price,
@@ -92,9 +94,17 @@ export const EditItemForm = ({ menu, itemToEdit }: FormProps) => {
     if (!item) return
 
     try {
-      console.log("action chamada")
-      const retorno = await updateItem(data, item?.id)
-      console.log("dados:", retorno)
+      const { imgFile } = data
+
+      if (imgFile) {
+        const imgUrl = await uploadImage(imgFile, `${imgFile.name}-${Date.now()}`)
+        data.imgUrl = imgUrl
+      }
+
+      delete data.imgFile
+
+      await updateItem(data, item?.id)
+
       router.replace(`/edit/${menu.slug}`)
 
     } catch (error) {
@@ -129,7 +139,10 @@ export const EditItemForm = ({ menu, itemToEdit }: FormProps) => {
           <ItemImgUploader
             menuId={menu?.id}
             initialItemImg={item?.img}
-            onChange={(imgUrl: string) => setValue("itemImg", imgUrl)}
+            onChange={(imgFile: File,) => {
+              setValue("imgFile", imgFile)
+            }
+            }
           />
         }
       </section>
