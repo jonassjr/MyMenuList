@@ -69,7 +69,30 @@ export async function createMenu(input: z.infer<typeof upsertMenu>) {
   return menu
 }
 
-export const DeleteMenu = async (slug: string) => {
+export async function updateMenu(input: z.infer<typeof upsertMenu>, id: string) {
+  const session = await auth()
+
+  if (!session?.user?.id) {
+    throw new Error("User not authenticated")
+  }
+
+  const slug = createSlug(input.title, session?.user?.id)
+
+  const updatedMenu = await prisma.menus.update({
+    where: {
+      id: id,
+    },
+    data: {
+      title: input.title,
+      userId: session.user.id,
+      slug: slug,
+    }
+  })
+
+  return updatedMenu
+}
+
+export const deleteMenu = async (id: string) => {
   const session = await auth()
 
   if (!session?.user?.id) {
@@ -78,7 +101,7 @@ export const DeleteMenu = async (slug: string) => {
 
   await prisma.menus.delete({
     where: {
-      slug,
+      id,
     }
   })
 
@@ -170,7 +193,6 @@ export const createItem = async (data: z.infer<typeof menuItem>, menuId: string)
 
   return newItem
 }
-
 
 export const updateItem = async (data: z.infer<typeof updateMenuItem>, itemId: string) => {
 
