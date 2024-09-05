@@ -12,10 +12,10 @@ import {
 } from "@/components/ui/select"
 
 import { Textarea } from "@/components/ui/textarea"
-import { TagInput } from "@/app/(users)/edit/[slug]/_components/TagInput"
+import { TagInput } from "@/app/(users)/edit/[menuId]/_components/TagInput"
 import { Button } from "@/components/ui/button"
 
-import { IngredientInput } from "@/app/(users)/edit/[slug]/_components/IngredientInput"
+import { IngredientInput } from "@/app/(users)/edit/[menuId]/_components/IngredientInput"
 import { ItemImgUploader } from "../../_components/ItemImgUploader"
 import { SelectCategory } from "../../_components/SelectCategory"
 

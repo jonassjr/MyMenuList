@@ -14,7 +14,7 @@ import {
 } from "../ui/select"
 
 import { Textarea } from "../ui/textarea"
-import { TagInput } from "../../app/(users)/edit/[slug]/_components/TagInput";
+import { TagInput } from "../../app/(users)/edit/[menuId]/_components/TagInput";
 import { Button } from "../ui/button";
 import {
   Form,
@@ -27,8 +27,8 @@ import {
 } from "../ui/form"
 
 
-import { IngredientInput } from "../../app/(users)/edit/[slug]/_components/IngredientInput";
-import { FileUploader } from "../../app/(users)/edit/[slug]/_components/ItemImgUploader";
+import { IngredientInput } from "../../app/(users)/edit/[menuId]/_components/IngredientInput";
+import { FileUploader } from "../../app/(users)/edit/[menuId]/_components/ItemImgUploader";
 import { Save } from "lucide-react";
 
 

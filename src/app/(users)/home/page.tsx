@@ -1,18 +1,7 @@
-import Link from "next/link"
-
 import { getUserMenus } from "../actions"
 import { MenuUpsertSheet } from "./_components/Menu-upsert-sheet"
 import { Button } from "@/components/ui/button"
-import { EllipsisVertical } from "lucide-react"
 
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
 import { MenuBook } from "./_components/MenuBook"
 
 export default async function Home() {
@@ -41,9 +30,7 @@ export default async function Home() {
           </div>
         ) : (
           menus.map((menu, i) => (
-            // <Link href={`/edit/${menu.slug}`} key={menu.id}>
             <MenuBook menuData={menu} index={i} key={menu.id} />
-            // </Link>
           ))
         )}
       </section>

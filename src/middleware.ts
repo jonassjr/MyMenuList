@@ -1,8 +1,9 @@
 import { NextResponse, NextRequest } from "next/server"
 
-export default function middleware(request: NextRequest) {
+export default async function middleware(request: NextRequest,) {
 
   const token = request.cookies.get('authjs.session-token')
+
   const pathName = request.nextUrl.pathname
 
   const homePath = new URL('/home', request.url)

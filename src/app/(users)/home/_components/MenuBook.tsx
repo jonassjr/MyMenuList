@@ -92,8 +92,8 @@ export const MenuBook = ({ menuData, index }: MenuBookProps) => {
             {index + 1}
           </span>
           <p className="text-zinc-100 absolute bottom-2 left-2">{title}</p>
-        </div >
-      </Link >
+        </div>
+      </Link>
       <DropdownMenu>
         <DropdownMenuTrigger className="absolute top-2 right-2 hover:bg-zinc-700 rounded-full p-1">
           <EllipsisVertical size={18} className="text-zinc-200" />
