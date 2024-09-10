@@ -45,7 +45,8 @@ export async function getMenuData(slug: string) {
           description: true,
           slug: true
         }
-      }
+      },
+      categories: true
     }
   })
 

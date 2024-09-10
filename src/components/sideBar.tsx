@@ -40,25 +40,25 @@ export const SideBar = ({ user }: UserData) => {
         <div className="pt-8 flex flex-col gap-y-2 border-t">
           <Link href={"/home"}
             className={` w-full flex gap-x-4 text-white items-center text-sm font-medium px-4 py-2 transition-colors duration-300
-            rounded-md  ${pathName === "/home" ? "bg-zinc-200 text-zinc-800 hover:bg-zinc-200" : "hover:bg-zinc-700"}`}>
+            rounded-md  ${pathName === "/home" ? "bg-white text-zinc-800 hover:bg-white" : "hover:bg-zinc-700"}`}>
             <Home />
             Home
           </Link>
           <Link href={"/dashboard"}
             className={` w-full flex gap-x-4 text-white items-center text-sm font-medium px-4 py-2 transition-colors duration-300
-            rounded-md  ${pathName === "/dashboard" ? "bg-zinc-200 text-zinc-800 hover:bg-zinc-200" : "hover:bg-zinc-700"}`}>
+            rounded-md  ${pathName === "/dashboard" ? "bg-white text-zinc-800 hover:bg-white" : "hover:bg-zinc-700"}`}>
             <LayoutDashboardIcon />
             Dashboard
           </Link>
           <Link href={"/settings"}
             className={` w-full flex gap-x-4 text-white items-center text-sm font-medium px-4 py-2 transition-colors duration-300
-            rounded-md  ${pathName === "/settings" ? "bg-zinc-200 text-zinc-800 hover:bg-zinc-200" : "hover:bg-zinc-700"}`}>
+            rounded-md  ${pathName === "/settings" ? "bg-white text-zinc-800 hover:bg-white" : "hover:bg-zinc-700"}`}>
             <Settings />
             Settings
           </Link>
           <Link href={"/upgrade"}
             className={` w-full flex gap-x-4 text-white items-center text-sm font-medium px-4 py-2 transition-colors duration-300
-            rounded-md  ${pathName === "/upgrade" ? "bg-zinc-200 text-zinc-800 hover:bg-zinc-200" : "hover:bg-zinc-700"}`}>
+            rounded-md  ${pathName === "/upgrade" ? "bg-white text-zinc-800 hover:bg-white" : "hover:bg-zinc-700"}`}>
             <CircleArrowUp />
             Upgrade
           </Link>
@@ -66,7 +66,7 @@ export const SideBar = ({ user }: UserData) => {
         <div className="flex flex-col gap-y-2">
           <Link href={"/help"}
             className={` w-full flex gap-x-4 text-white items-center text-sm font-medium px-4 py-2 transition-colors duration-300
-            rounded-md  ${pathName === "/help" ? "bg-zinc-200 text-zinc-800 hover:bg-zinc-200" : "hover:bg-zinc-700"}`}>
+            rounded-md  ${pathName === "/help" ? "bg-white text-zinc-800 hover:bg-white" : "hover:bg-zinc-700"}`}>
             <CircleHelp />
             Suporte
           </Link>
