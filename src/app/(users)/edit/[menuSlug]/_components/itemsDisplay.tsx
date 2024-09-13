@@ -77,7 +77,7 @@ export const ItemsDisplay = ({ categories, items, menuSlug }: ItemsDisplayProps)
 
   return (
     <div className="flex flex-col gap-y-8">
-      <div className="w-full flex justify-between">
+      <div className="w-full flex flex-col gap-4 min-[480px]:flex-row min-[480px]:justify-between">
         <div className="relative">
           <div className="absolute top-2 left-2">
             <Search className="text-zinc-400" />
@@ -93,10 +93,10 @@ export const ItemsDisplay = ({ categories, items, menuSlug }: ItemsDisplayProps)
         </div>
 
         <Select onValueChange={(value) => setCategoryId(value)}>
-          <SelectTrigger className="w-[200px]">
+          <SelectTrigger className="w-full min-[480px]:w-[200px]">
             <SelectValue placeholder="categoria" />
           </SelectTrigger>
-          <SelectContent className="w-[200px] ">
+          <SelectContent className="w-full ">
             <SelectItem value="todas" className="pl-2">Categorias</SelectItem>
             <SelectSeparator />
             {categories?.map((category) => (

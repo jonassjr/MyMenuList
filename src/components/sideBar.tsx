@@ -5,7 +5,7 @@ import Link from "next/link";
 import Logo from "../../public/MyMenuList-Logo.svg"
 import { usePathname } from "next/navigation";
 
-import { CircleArrowUp, LayoutDashboardIcon, Settings, CircleUser, CircleHelp, Home } from "lucide-react";
+import { CircleArrowUp, LayoutDashboardIcon, Settings, CircleUser, CircleHelp, Home, X } from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -21,6 +21,8 @@ import {
 
 import { SignOutBtn } from "./Buttons/SignOutBtn";
 import { Session } from "next-auth";
+import { useContext } from "react";
+import { SideBarContext } from "@/contexts/SideBarContext";
 
 type UserData = {
   user: Session["user"]
@@ -29,12 +31,22 @@ type UserData = {
 export const SideBar = ({ user }: UserData) => {
   const pathName = usePathname()
 
+  const { toggle, HandleSetToggle } = useContext(SideBarContext)
+
   return (
-    <aside className="w-full fixed top-0 bottom-0 max-w-64 bg-zinc-800 flex flex-col">
-      <header className="grid place-content-center py-4">
-        <Link href={"/"} >
+    <aside
+      className={`absolute md:fixed md:left-0 h-screen top-0 bottom-0 transition-all duration-300 ease-in-out w-full max-w-64 bg-zinc-800
+      flex flex-col z-10 shadow-2xl md:shadow ${toggle ? "left-0" : "-left-full"}`}>
+      <header className="flex justify-between px-4 items-center md:grid place-content-center py-4">
+        <Link href={"/"}>
           <Image src={Logo} width={155} alt="MyMenuList logo image" />
         </Link>
+        <div
+          className="block md:hidden"
+          onClick={HandleSetToggle}
+        >
+          <X className="text-zinc-100" />
+        </div>
       </header>
       <section className="mb-4 px-2 h-full flex flex-col justify-between">
         <div className="pt-8 flex flex-col gap-y-2 border-t">
