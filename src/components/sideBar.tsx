@@ -35,7 +35,7 @@ export const SideBar = ({ user }: UserData) => {
 
   return (
     <aside
-      className={`absolute md:fixed md:left-0 h-screen top-0 bottom-0 transition-all duration-300 ease-in-out w-full max-w-64 bg-zinc-800
+      className={`fixed md:left-0 h-screen top-0 bottom-0 transition-all duration-300 ease-in-out w-full max-w-64 bg-zinc-800
       flex flex-col z-10 shadow-2xl md:shadow ${toggle ? "left-0" : "-left-full"}`}>
       <header className="flex justify-between px-4 items-center md:grid place-content-center py-4">
         <Link href={"/"}>

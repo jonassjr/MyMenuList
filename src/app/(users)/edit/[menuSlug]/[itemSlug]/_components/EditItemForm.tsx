@@ -147,7 +147,7 @@ export const EditItemForm = ({ menu, itemToEdit }: FormProps) => {
         }
       </section>
 
-      <section className="w-full grid grid-cols-2 gap-4">
+      <section className="w-full grid min-[560px]:grid-cols-2 gap-4">
         <div className="w-full flex flex-col gap-y-3">
 
           <Label htmlFor="name" className="relative w-full">
@@ -237,7 +237,7 @@ export const EditItemForm = ({ menu, itemToEdit }: FormProps) => {
         </div>
       </section>
 
-      <section className="w-full grid grid-cols-2 gap-4">
+      <section className="w-full grid min-[560px]:grid-cols-2 gap-4">
         <div className="w-full flex flex-col gap-y-2">
           <Label htmlFor="description" className="relative w-full">Descrição
             {errors.description && <p className="absolute top-0 right-0 text-red-400 text-xs">{errors.description.message}</p>}

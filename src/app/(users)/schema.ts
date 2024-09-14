@@ -7,6 +7,7 @@ export const upsertMenu = z.object({
 export const menuItem = z.object({
   name: z.string().min(1, "Campo obrigatório"),
   price: z.string().min(1, "Campo obrigatório"),
+  imgFile: z.instanceof(File),
   imgUrl: z.string().min(1, "Por favor adicione uma Imagem"),
   category: z.string({ required_error: "Campo obrigatorio" }),
   availability: z.string({

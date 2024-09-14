@@ -111,34 +111,34 @@ export const ItemsDisplay = ({ categories, items, menuSlug }: ItemsDisplayProps)
         </Select>
       </div>
 
-      <section className="grid grid-cols-1 sm:grid-cols-2 min-[1200px]:grid-cols-3 gap-6">
+      <section className="grid grid-cols-1 min-[375px]:grid-cols-2 lg:grid-cols-3 gap-6">
         <article className="flex flex-col gap-y-2 ">
 
           <Link href={`${menuSlug}/register-item`} >
-            <div className="w-full h-[220px] border-2 rounded-md border-dashed border-zinc-400 
+            <div className="w-full aspect-[16/12] border-2 rounded-md border-dashed border-zinc-400 
                 flex flex-col items-center justify-center cursor-pointer">
-              <Plus size={52} className="text-zinc-600 text-center" />
-              <p className="muted-foreground">Adicionar um novo item</p>
+              <Plus className="size-8 sm:size-12 md:size-8 min-[880px]:size-12 text-zinc-600 text-center" />
+              <p className="muted-foreground text-sm sm:text-base md:text-sm min-[880px]:text-base text-center">Adicionar um novo item</p>
             </div>
           </Link>
 
           <div className="flex flex-col text-zinc-900" >
-            <h2 className="font-medium">Novo item</h2>
-            <p className="text-sm">Adicione um novo item ao seu cardápio.</p>
+            <h2 className="font-medium text-sm sm:text-base">Novo item</h2>
+            <p className="text-xs sm:text-sm">Adicione um novo item ao seu cardápio.</p>
           </div>
         </article>
 
         {menuItems && menuItems.map((item) => (
           <article className="flex flex-col gap-y-2" key={item.id}>
             <Link href={`${menuSlug}/${item.slug}`} >
-              <div className="relative w-full h-[220px] bg-zinc-300 rounded-md overflow-hidden">
+              <div className="relative w-full aspect-[16/12] bg-zinc-300 rounded-md overflow-hidden">
                 <Image src={item.img} fill className="object-cover" alt={`imagem do item ${item.name}`} />
               </div>
             </Link>
 
             <div className="flex flex-col text-zinc-900">
-              <h2 className="font-medium">{item.name}</h2>
-              <p className="text-sm">{item.description}</p>
+              <h2 className="font-medium text-sm sm:text-base">{item.name}</h2>
+              <p className="text-xs sm:text-sm">{item.description}</p>
             </div>
           </article>
         ))}

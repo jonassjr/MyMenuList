@@ -45,7 +45,7 @@ export const ItemImgUploader = ({ menuId, onChange, initialItemImg }: ItemImgUpl
 
   return (
     <div {...getRootProps()}
-      className={`relative h-[220px] w-[309px] rounded-md ${itemImg[0] ? "" : "border-2 border-dashed border-zinc-400"} ring-offset-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-900 `}
+      className={`relative aspect-[16/12] max-w-[309px] rounded-md ${itemImg[0] ? "" : "border-2 border-dashed border-zinc-400"} ring-offset-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-900 `}
     >
       {itemImg[0] &&
         <span className='transition-all absolute top-4 right-4 w-10 h-10 rounded-full bg-zinc-100 cursor-pointer 

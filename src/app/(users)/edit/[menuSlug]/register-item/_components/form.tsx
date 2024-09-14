@@ -12,21 +12,26 @@ import {
 } from "@/components/ui/select"
 
 import { Textarea } from "@/components/ui/textarea"
-import { TagInput } from "@/app/(users)/edit/[menuId]/_components/TagInput"
+import { TagInput } from "../../_components/TagInput"
 import { Button } from "@/components/ui/button"
 
-import { IngredientInput } from "@/app/(users)/edit/[menuId]/_components/IngredientInput"
+import { IngredientInput } from "../../_components/IngredientInput"
 import { ItemImgUploader } from "../../_components/ItemImgUploader"
 import { SelectCategory } from "../../_components/SelectCategory"
 
 import { LoaderCircle } from "lucide-react"
-import { z } from "zod"
+
 import { menuItem } from "@/app/(users)/schema"
+
 import { createItem } from "@/app/(users)/actions"
+
 import { useRouter } from "next/navigation"
-import { useState } from "react"
+
 import { SubmitHandler, useForm } from "react-hook-form"
+
+import { z } from "zod"
 import { zodResolver } from "@hookform/resolvers/zod"
+import { uploadImage } from "@/lib/supabase/upload"
 
 type FormValues = z.infer<typeof menuItem>
 
@@ -61,7 +66,7 @@ interface FormProps {
     userId: string
     coverImg: string | null
     items: ItemProps[]
-  }
+  } | null
 }
 
 
@@ -74,6 +79,13 @@ export const Form = ({ menu }: FormProps) => {
   const router = useRouter()
 
   const onSubmit: SubmitHandler<FormValues> = async (data) => {
+    const { imgFile } = data
+
+    if (imgFile) {
+      const imgUrl = await uploadImage(imgFile, `${imgFile.name}-${Date.now()}`)
+      data.imgUrl = imgUrl
+    }
+
     if (!menu) return
     await createItem(data, menu.id)
     reset()
@@ -110,7 +122,7 @@ export const Form = ({ menu }: FormProps) => {
         }
       </section>
 
-      <section className="w-full grid grid-cols-2 gap-4">
+      <section className="w-full grid min-[560px]:grid-cols-2 gap-4">
         <div className="w-full flex flex-col gap-y-3">
 
           <Label htmlFor="name" className="relative w-full">
@@ -195,7 +207,7 @@ export const Form = ({ menu }: FormProps) => {
         </div>
       </section>
 
-      <section className="w-full grid grid-cols-2 gap-4">
+      <section className="w-full grid min-[560px]:grid-cols-2 gap-4">
         <div className="w-full flex flex-col gap-y-2">
           <Label htmlFor="description" className="relative w-full">Descrição
             {errors.description && <p className="absolute top-0 right-0 text-red-400 text-xs">{errors.description.message}</p>}
