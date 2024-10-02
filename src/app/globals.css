@@ -91,4 +91,3 @@
 .custom-scrollbar::-webkit-scrollbar-thumb:hover {
   @apply bg-zinc-800 rounded-md
 }
-

@@ -2,7 +2,7 @@ import { getUserMenus } from "../actions"
 import { MenuUpsertSheet } from "./_components/Menu-upsert-sheet"
 import { Button } from "@/components/ui/button"
 
-import { MenuBook } from "./_components/MenuBook"
+import { MenuBook } from "@/app/(users)/home/_components/MenuBook"
 import { PlusCircle } from "lucide-react"
 
 export default async function Home() {

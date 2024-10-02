@@ -9,18 +9,18 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet"
 
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Button } from "@/components/ui/button";
-import { SubmitHandler, useForm } from "react-hook-form";
+import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
+import { Button } from "@/components/ui/button"
+import { SubmitHandler, useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { upsertMenu } from "../../schema";
-import { useRouter } from "next/navigation";
-import { z } from "zod";
+import { upsertMenu } from "../../schema"
+import { useRouter } from "next/navigation"
+import { z } from "zod"
 
 import { createMenu } from "../../actions"
-import { useRef, useState } from "react";
-import { LoaderCircle } from "lucide-react";
+import { useRef, useState } from "react"
+import { LoaderCircle } from "lucide-react"
 
 type FormValues = z.infer<typeof upsertMenu>
 
@@ -35,7 +35,7 @@ export const MenuUpsertSheet = ({ children }: MenuUpsertSheetProps) => {
 
   const { register, handleSubmit, reset, formState: { errors, isSubmitting } } = useForm<FormValues>({
     resolver: zodResolver(upsertMenu)
-  });
+  })
 
   const onSubmit: SubmitHandler<FormValues> = (async (data) => {
     await createMenu(data)

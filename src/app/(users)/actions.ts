@@ -22,6 +22,19 @@ export async function getUserMenus() {
   return menus
 }
 
+export async function getPageData(pageName: string) {
+
+  const menus = await prisma.user.findUnique({
+    where: {
+      pageName,
+    }, select: {
+      Menus: true,
+    }
+  })
+
+  return menus
+}
+
 export async function getMenuData(slug: string) {
 
   const session = await auth()

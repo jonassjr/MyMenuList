@@ -41,7 +41,7 @@ export const Header = () => {
           {paths.map((path, index) => {
             const href = `/${paths.slice(0, index + 1).join("/")}`
             return (
-              <span key={index} className="flex items-center gap-x-1.5">
+              <span key={index} className="hidden sm:flex items-center gap-x-1.5">
                 <BreadcrumbSeparator />
                 <BreadcrumbItem>
                   {/* <BreadcrumbLink href={href}>{path}</BreadcrumbLink> */}

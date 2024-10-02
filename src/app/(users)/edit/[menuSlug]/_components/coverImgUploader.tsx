@@ -68,7 +68,7 @@ export const CoverImgUploader = ({ menuId, initialCoverImg }: CoverImgUploaderPr
     <section className="flex flex-col gap-y-8">
 
       <div {...getRootProps()}
-        className={`relative w-full aspect-[16/6] rounded-md  ${coverImg[0] ? "" : "border-2 border-dashed border-zinc-400"} ring-offset-2 
+        className={`relative w-full aspect-[16/5] rounded-md  ${coverImg[0] ? "" : "border-2 border-dashed border-zinc-400"} ring-offset-2 
         focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-900 overflow-hidden `}
       >
         {coverImg[0] &&
