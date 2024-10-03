@@ -1,4 +1,5 @@
 import { auth } from "@/services/auth"
+import prisma from "@/services/database"
 import { type ClassValue, clsx } from "clsx"
 import { twMerge } from "tailwind-merge"
 
@@ -18,4 +19,37 @@ export const createSlug = (name: String) => {
     .replace(/-+/g, "-")   // Remove hífens consecutivos
 
   return `${cleanedName}`
+}
+
+export const createPageName = async (name: string) => {
+  const slugify = (text: string) =>
+    text
+      .toString()
+      .toLowerCase()
+      .trim()
+      .replace(/\s+/g, '-') // substitui espaços por hifens
+      .replace(/[^\w\-]+/g, '') // remove caracteres especiais
+      .replace(/\-\-+/g, '-') // substitui múltiplos hifens por um único
+      .replace(/^-+/, '') // remove hifens do início
+      .replace(/-+$/, ''); // remove hifens do final
+
+  let slug = slugify(name)
+
+  let isPageNameExist = await prisma.user.findUnique({
+    where: {
+      pageName: slug
+    }
+  })
+
+  let counter = 1
+
+  while (isPageNameExist) {
+    slug = `${slugify(name)}-${counter}`;
+    isPageNameExist = await prisma.user.findUnique({
+      where: { pageName: slug }
+    })
+    counter++
+  }
+
+  return slug
 }

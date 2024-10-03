@@ -44,8 +44,7 @@ export const Header = () => {
               <span key={index} className="hidden sm:flex items-center gap-x-1.5">
                 <BreadcrumbSeparator />
                 <BreadcrumbItem>
-                  {/* <BreadcrumbLink href={href}>{path}</BreadcrumbLink> */}
-                  <span>{path}</span>
+                  <span>{path == "settings" ? " configurações" : path}</span>
                 </BreadcrumbItem>
               </span>
             )

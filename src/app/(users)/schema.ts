@@ -4,6 +4,10 @@ export const upsertMenu = z.object({
   title: z.string().min(1, "Por favor informe o nome do menu")
 })
 
+export const updatePageNameSchema = z.object({
+  pageName: z.string().min(1, "Por favor informe o nome do menu")
+})
+
 export const menuItem = z.object({
   name: z.string().min(1, "Campo obrigatório"),
   price: z.string().min(1, "Campo obrigatório"),

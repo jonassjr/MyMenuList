@@ -3,9 +3,9 @@
 import { auth } from "@/services/auth"
 import prisma from "@/services/database"
 import { z } from 'zod'
-import { menuItem, updateMenuItem, upsertMenu } from "./schema"
+import { menuItem, updateMenuItem, updatePageNameSchema, upsertMenu } from "./schema"
 import { createSlug } from "@/lib/utils"
-import { deleteImage, uploadImage } from "@/lib/supabase/upload"
+import { deleteImage } from "@/lib/supabase/upload"
 
 export async function getUserMenus() {
 
@@ -33,6 +33,37 @@ export async function getPageData(pageName: string) {
   })
 
   return menus
+}
+
+export async function updatePageName(pageName: string) {
+
+  const session = await auth()
+
+  if (!session?.user?.id) {
+    throw new Error("User not authenticated")
+  }
+
+  const isPageNameExist = await prisma.user.findUnique({
+    where: {
+      pageName,
+    }
+  })
+
+  if (isPageNameExist) {
+    throw new Error("Nome já em uso!")
+
+  }
+
+  const updatedPageName = await prisma.user.update({
+    where: {
+      id: session?.user?.id,
+    },
+    data: {
+      pageName,
+    }
+  })
+
+  return updatedPageName
 }
 
 export async function getMenuData(slug: string) {
