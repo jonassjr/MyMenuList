@@ -46,10 +46,16 @@ model User {
   email         String?   @unique
   emailVerified DateTime? @map("email_verified")
   image         String?
-  accounts      Account[]
-  sessions      Session[]
-  Menus         Menus[]
-  pageName      String?   @unique
+
+  stripeCustomerId         String?
+  stripeSubscriptionId     String?
+  stripeSubscriptionStatus String?
+  stripePriceId            String?
+
+  accounts Account[]
+  sessions Session[]
+  Menus    Menus[]
+  pageName String?   @unique
 
   @@map("users")
 }

@@ -3,6 +3,7 @@ import Google from "next-auth/providers/google"
 import { PrismaAdapter } from "@auth/prisma-adapter"
 import prisma from "../database"
 import { createPageName } from "@/lib/utils"
+import { createStripeCustomer } from "../stripe"
 
 export const { auth, handlers, signIn, signOut } = NextAuth({
   adapter: PrismaAdapter(prisma),
@@ -11,13 +12,6 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
     clientSecret: process.env.GOOGLE_CLIENT_SECRET
   })],
   secret: process.env.NEXTAUTH_SECRET,
-  callbacks: {
-    async session({ session, token, user }) {
-      session.user.pageName = user.pageName
-
-      return session
-    }
-  },
   events: {
     createUser: async ({ user }) => {
       try {
@@ -26,7 +20,14 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
           where: { id: user.id },
           data: { pageName },
         });
+
+        await createStripeCustomer({
+          name: user.name as string,
+          email: user.email as string,
+        })
+
       } catch (error) {
+        console.log(error)
       }
     }
   }
