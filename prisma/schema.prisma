@@ -101,7 +101,7 @@ model Items {
   name         String     @unique
   price        String
   category     Categories @relation(fields: [categoriesId], references: [id])
-  tags         String
+  tags         String?
   ingredients  String
   description  String
   availability String

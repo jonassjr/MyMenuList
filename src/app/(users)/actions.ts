@@ -230,7 +230,7 @@ export const createItem = async (data: z.infer<typeof menuItem>, menuId: string)
       price,
       category: {
         connect: {
-          id: category
+          name: category
         }
       },
       availability,

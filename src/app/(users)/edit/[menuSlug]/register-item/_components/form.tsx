@@ -27,11 +27,10 @@ import { createItem } from "@/app/(users)/actions"
 
 import { useRouter } from "next/navigation"
 
-import { SubmitHandler, useForm } from "react-hook-form"
-
 import { z } from "zod"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { uploadImage } from "@/lib/supabase/upload"
+import { useForm, SubmitHandler } from "react-hook-form"
 
 type FormValues = z.infer<typeof menuItem>
 
@@ -51,7 +50,7 @@ interface ItemProps {
   category: CategoryProps
   availability: string
   ingredients: string // Ou pode ser string[] se for uma lista de strings
-  tags: string // Ou pode ser string[] se for uma lista de tags
+  tags: string | null // Ou pode ser string[] se for uma lista de tags
   cautions: string
   description: string
 }
@@ -69,27 +68,41 @@ interface FormProps {
   } | null
 }
 
-
 export const Form = ({ menu }: FormProps) => {
 
-  const { register, handleSubmit, setValue, reset, formState: { isSubmitting, errors } } = useForm<FormValues>({
-    resolver: zodResolver(menuItem),
+  const { handleSubmit, register, setValue, clearErrors, reset, formState: { isSubmitting, errors } } = useForm<FormValues>({
+    resolver: zodResolver(menuItem)
   })
 
   const router = useRouter()
 
+  if (Object.keys(errors).length > 0) {
+    console.log("Validation errors:", errors);
+  }
+
   const onSubmit: SubmitHandler<FormValues> = async (data) => {
+
     const { imgFile } = data
 
     if (imgFile) {
-      const imgUrl = await uploadImage(imgFile, `${imgFile.name}-${Date.now()}`)
+      const imgUrl = await uploadImage(imgFile, `${imgFile.name}-${Date.now()}`);
       data.imgUrl = imgUrl
-    }
 
-    if (!menu) return
-    await createItem(data, menu.id)
-    reset()
-    router.replace(`/edit/${menu.slug}`)
+      delete data.imgFile
+      console.log(data)
+      if (!menu) return
+
+      try {
+
+        await createItem(data, menu.id)
+        reset()
+
+        router.replace(`/edit/${menu.slug}`)
+
+      } catch (error) {
+        console.log(error)
+      }
+    }
   }
 
   const handlePriceChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -113,11 +126,19 @@ export const Form = ({ menu }: FormProps) => {
       onSubmit={handleSubmit(onSubmit)}
       className="flex flex-col gap-y-8 my-8">
 
-      <section >
+      <section className="w-full flex flex-col gap-y-2" >
+        {errors.imgUrl &&
+          <p className="text-red-400 text-xs">{errors.imgUrl.message}</p>
+        }
         {menu &&
           <ItemImgUploader
             menuId={menu?.id}
-            onChange={(imgFile: File) => setValue("imgFile", imgFile)}
+            onChange={async (imgFile: File) => {
+              setValue("imgFile", imgFile, { shouldValidate: true })
+              setValue("imgUrl", "", { shouldValidate: true })
+              clearErrors("imgUrl")
+
+            }}
           />
         }
       </section>

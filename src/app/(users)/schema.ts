@@ -11,8 +11,10 @@ export const updatePageNameSchema = z.object({
 export const menuItem = z.object({
   name: z.string().min(1, "Campo obrigatório"),
   price: z.string().min(1, "Campo obrigatório"),
-  imgFile: z.instanceof(File),
-  imgUrl: z.string().min(1, "Por favor adicione uma Imagem"),
+  imgFile: z.instanceof(File).optional(),
+  imgUrl: z.string({
+    required_error: "Imagem obrigatória" 
+  }),
   category: z.string({ required_error: "Campo obrigatorio" }),
   availability: z.string({
     required_error: "Campo obrigatorio",

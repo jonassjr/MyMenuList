@@ -1,15 +1,8 @@
 "use client"
 
-import {
-  Breadcrumb,
-  BreadcrumbItem,
-  BreadcrumbLink,
-  BreadcrumbList,
-  BreadcrumbPage,
-  BreadcrumbSeparator,
-} from "@/components/ui/breadcrumb"
 import { SideBarContext } from "@/contexts/SideBarContext"
 import { Home, Menu } from "lucide-react"
+import Link from "next/link"
 
 import { usePathname } from "next/navigation"
 import { useContext } from "react"
@@ -19,38 +12,20 @@ export const Header = () => {
 
   const { HandleSetToggle } = useContext(SideBarContext)
 
-  const paths = pathName
-    .split("/")
-    .filter(Boolean)
-    .map(part => part.replace(/-/g, " "))
-
-
   return (
     <header className="sticky top-0 flex w-full py-6 bg-white border-b border-border z-20">
-      <Breadcrumb>
-        <BreadcrumbList>
-          <div className="block md:hidden"
-            onClick={HandleSetToggle}
-          >
-            <Menu className="text-zinc-900" />
-          </div>
 
-          <BreadcrumbItem className="hidden md:block">
-            <BreadcrumbLink href="/home"><Home /></BreadcrumbLink>
-          </BreadcrumbItem>
-          {paths.map((path, index) => {
-            const href = `/${paths.slice(0, index + 1).join("/")}`
-            return (
-              <span key={index} className="hidden sm:flex items-center gap-x-1.5">
-                <BreadcrumbSeparator />
-                <BreadcrumbItem>
-                  <span>{path == "settings" ? " configurações" : path}</span>
-                </BreadcrumbItem>
-              </span>
-            )
-          })}
-        </BreadcrumbList>
-      </Breadcrumb>
+      <div className="block md:hidden "
+        onClick={HandleSetToggle}
+      >
+        <Menu className="text-zinc-700 hover:text-zinc-00" />
+      </div>
+
+      <div className="hidden md:block">
+        <Link href="/home">
+          <Home className="text-zinc-700 hover:text-zinc-00" />
+        </Link>
+      </div>
     </header>
   )
 }

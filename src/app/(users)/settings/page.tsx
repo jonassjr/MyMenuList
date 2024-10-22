@@ -18,7 +18,7 @@ export default async function Settings() {
         </header>
 
         <article className="border rounded-lg p-4 flex flex-col gap-y-6">
-          <PageNameForm pageName={user?.pageName} />
+          {user?.pageName && <PageNameForm pageName={user?.pageName} />}
         </article>
       </section>
 

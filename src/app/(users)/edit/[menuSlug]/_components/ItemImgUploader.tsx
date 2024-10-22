@@ -1,6 +1,5 @@
 "use client"
 
-import { deleteImage, uploadImage } from '@/lib/supabase/upload'
 import { Edit, ImagePlus } from 'lucide-react'
 import Image from 'next/image'
 import React, { useCallback, useEffect, useState } from 'react'

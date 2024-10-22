@@ -16,6 +16,7 @@ import {
   SelectValue,
 } from "@/components/ui/select"
 import { useEffect, useState } from "react"
+import { BillingDialog } from "@/components/BillingDialog"
 
 interface Category {
   id: string
@@ -31,7 +32,7 @@ interface Item {
   name: string;
   slug: string | null;
   price: string;
-  tags: string;
+  tags: string | null
   ingredients: string;
   description: string;
   availability: string;
@@ -49,13 +50,18 @@ interface ItemsDisplayProps {
   categories: Category[] | undefined
   items: Item[] | undefined
   menuSlug: string
+  plan: string | number | undefined
+  qtdItems: number
 }
 
-export const ItemsDisplay = ({ categories, items, menuSlug }: ItemsDisplayProps) => {
+export const ItemsDisplay = ({ categories, items, menuSlug, plan, qtdItems }: ItemsDisplayProps) => {
 
   const [searchTerm, setSearchTerm] = useState<string | undefined>("")
   const [menuItems, setMenuItems] = useState(items)
   const [categoryId, setCategoryId] = useState<string>()
+
+  // const qtdItems = items?.length
+  console.log(qtdItems)
 
   useEffect(() => {
     if (items) {
@@ -77,6 +83,7 @@ export const ItemsDisplay = ({ categories, items, menuSlug }: ItemsDisplayProps)
 
   return (
     <div className="flex flex-col gap-y-8">
+
       <div className="w-full flex flex-col gap-4 min-[480px]:flex-row min-[480px]:justify-between">
         <div className="relative">
           <div className="absolute top-2 left-2">
@@ -112,15 +119,23 @@ export const ItemsDisplay = ({ categories, items, menuSlug }: ItemsDisplayProps)
       </div>
 
       <section className="grid grid-cols-1 min-[375px]:grid-cols-2 lg:grid-cols-3 gap-6">
-        <article className="flex flex-col gap-y-2 ">
+        <article className="flex flex-col gap-y-2">
 
-          <Link href={`${menuSlug}/register-item`} >
+          {plan === "pro" || plan === "free" && qtdItems < 1 ? (<Link href={`${menuSlug}/register-item`} >
             <div className="w-full aspect-[16/12] border-2 rounded-md border-dashed border-zinc-400 
                 flex flex-col items-center justify-center cursor-pointer">
               <Plus className="size-8 sm:size-12 md:size-8 min-[880px]:size-12 text-zinc-600 text-center" />
               <p className="muted-foreground text-sm sm:text-base md:text-sm min-[880px]:text-base text-center">Adicionar um novo item</p>
             </div>
-          </Link>
+          </Link>) : (
+            <BillingDialog>
+              <div className="w-full aspect-[16/12] border-2 rounded-md border-dashed border-zinc-400 
+                flex flex-col items-center justify-center cursor-pointer">
+                <Plus className="size-8 sm:size-12 md:size-8 min-[880px]:size-12 text-zinc-600 text-center" />
+                <p className="muted-foreground text-sm sm:text-base md:text-sm min-[880px]:text-base text-center">Adicionar um novo item</p>
+              </div>
+            </BillingDialog>
+          )}
 
           <div className="flex flex-col text-zinc-900" >
             <h2 className="font-medium text-sm sm:text-base">Novo item</h2>
@@ -128,20 +143,37 @@ export const ItemsDisplay = ({ categories, items, menuSlug }: ItemsDisplayProps)
           </div>
         </article>
 
-        {menuItems && menuItems.map((item) => (
-          <article className="flex flex-col gap-y-2" key={item.id}>
-            <Link href={`${menuSlug}/${item.slug}`} >
-              <div className="relative w-full aspect-[16/12] bg-zinc-300 rounded-md overflow-hidden">
-                <Image src={item.img} fill className="object-cover" alt={`imagem do item ${item.name}`} />
-              </div>
-            </Link>
+        {plan === "pro" && menuItems ? (
+          menuItems.map((item) => (
+            <article className="flex flex-col gap-y-2" key={item.id}>
+              <Link href={`${menuSlug}/${item.slug}`} >
+                <div className="relative w-full aspect-[16/12] bg-zinc-300 rounded-md overflow-hidden">
+                  <Image src={item.img} fill className="object-cover" alt={`imagem do item ${item.name}`} />
+                </div>
+              </Link>
 
-            <div className="flex flex-col text-zinc-900">
-              <h2 className="font-medium text-sm sm:text-base">{item.name}</h2>
-              <p className="text-xs sm:text-sm">{item.description}</p>
-            </div>
-          </article>
-        ))}
+              <div className="flex flex-col text-zinc-900">
+                <h2 className="font-medium text-sm sm:text-base">{item.name}</h2>
+                <p className="text-xs sm:text-sm">{item.description}</p>
+              </div>
+            </article>
+          ))
+        ) : (
+          menuItems && menuItems.slice(0, 1).map((item) => (
+            <article className="flex flex-col gap-y-2" key={item.id}>
+              <Link href={`${menuSlug}/${item.slug}`} >
+                <div className="relative w-full aspect-[16/12] bg-zinc-300 rounded-md overflow-hidden">
+                  <Image src={item.img} fill className="object-cover" alt={`imagem do item ${item.name}`} />
+                </div>
+              </Link>
+
+              <div className="flex flex-col text-zinc-900">
+                <h2 className="font-medium text-sm sm:text-base">{item.name}</h2>
+                <p className="text-xs sm:text-sm">{item.description}</p>
+              </div>
+            </article>
+          ))
+        )}
       </section>
     </div>
   )

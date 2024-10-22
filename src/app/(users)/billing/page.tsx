@@ -1,7 +1,7 @@
-import { Button } from "@/components/ui/button";
-import { createCheckoutSessionAction } from "./actions";
-import { auth } from "@/services/auth";
-import { getPlanByPrice } from "@/services/stripe";
+import { Button } from "@/components/ui/button"
+import { createCheckoutSessionAction } from "./actions"
+import { auth } from "@/services/auth"
+import { getPlanByPrice } from "@/services/stripe"
 
 export default async function Plan() {
 
@@ -18,7 +18,6 @@ export default async function Plan() {
 
       <form action={createCheckoutSessionAction} className="p-4 rounded-md border flex flex-col gap-y-4">
         <div className="flex flex-col">
-          {/* <p>Meu Plano</p> */}
           <p className="text-muted-foreground text-sm">Você está atualemente no plano <span className="text-black font-semibold">{plan.name === "free" ? "GRATUITO" : "PRO"}</span> </p>
         </div>
 

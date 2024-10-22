@@ -9,11 +9,11 @@ import { SubmitHandler, useForm } from "react-hook-form"
 import { updatePageName } from "../../actions"
 
 interface FormValue {
-  pageName: string
+  pageName: string | undefined
 }
 
 interface PageNameFormProps {
-  pageName: string | undefined
+  pageName: string
 }
 
 export const PageNameForm = ({ pageName }: PageNameFormProps) => {
@@ -21,13 +21,15 @@ export const PageNameForm = ({ pageName }: PageNameFormProps) => {
     defaultValues: {
       pageName: pageName
     },
-
   })
 
   const onSubmit: SubmitHandler<FormValue> = async (data) => {
     const pageName = data.pageName
+
     try {
-      await updatePageName(pageName)
+      if (pageName) {
+        await updatePageName(pageName)
+      }
 
     } catch (err) {
       if (err instanceof Error) {

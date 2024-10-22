@@ -4,14 +4,24 @@ import { ItemsDisplay } from "./_components/itemsDisplay"
 
 import { getMenuData } from "../../actions"
 import { CoverImgUploader } from "./_components/coverImgUploader"
+import { auth } from "@/services/auth"
+import { getPlanByPrice } from "@/services/stripe"
 
 export default async function EditMenuPage({ params }: { params: { menuSlug: string } }) {
 
   const { menuSlug } = params
 
   const menu = await getMenuData(menuSlug)
+
   const categories = menu?.categories
+
   const items = menu?.items
+
+  const qtdItems = items?.length
+
+  const session = await auth()
+
+  const plan = getPlanByPrice(session?.user.stripePriceId as string)
 
   if (!menu) {
     notFound()
@@ -29,7 +39,7 @@ export default async function EditMenuPage({ params }: { params: { menuSlug: str
           {menu && <CoverImgUploader menuId={menu?.id} initialCoverImg={menu.coverImg ?? undefined} />}
         </div>
 
-        <ItemsDisplay categories={categories} items={items} menuSlug={menuSlug} />
+        {qtdItems && <ItemsDisplay categories={categories} items={items} menuSlug={menuSlug} plan={plan.name} qtdItems={qtdItems} />}
       </div>
     </main>
   )
