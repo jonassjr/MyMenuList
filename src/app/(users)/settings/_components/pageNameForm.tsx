@@ -3,7 +3,6 @@
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { zodResolver } from "@hookform/resolvers/zod"
 import { LoaderCircle } from "lucide-react"
 import { SubmitHandler, useForm } from "react-hook-form"
 import { updatePageName } from "../../actions"
@@ -47,7 +46,9 @@ export const PageNameForm = ({ pageName }: PageNameFormProps) => {
           <p className="text-muted-foreground text-sm">Endereço</p>
           <p className="border p-[0.6rem] rounded-md self-end text-sm font-semibold">www.meumenu.com</p>
         </div>
+
         <span className="text-2xl mt-5">/</span>
+
         <div className="w-full flex flex-col gap-y-3">
           <Label htmlFor="name" className="flex justify-between w-full">
             <p className="text-sm">Nome do estabelecimento</p>
@@ -61,7 +62,7 @@ export const PageNameForm = ({ pageName }: PageNameFormProps) => {
             {...register("pageName", {
               pattern: {
                 value: /^[a-zA-Z0-9\-]+$/,
-                message: "Não use caracteres especiais como @, #, %, &, etc.",
+                message: "Não use caracteres especiais como @, #, %, espaços, etc.",
               },
               minLength: {
                 value: 3,
@@ -75,7 +76,7 @@ export const PageNameForm = ({ pageName }: PageNameFormProps) => {
       <Button
         type="submit"
         disabled={isSubmitting}
-        className={`w-fit self-end gap-x-2 disabled:pointer-events-auto disabled:cursor-not-allowed `}
+        className={`w-fit self-end gap-x-2 disabled:pointer-events-auto disabled:cursor-not-allowed`}
       >
         {isSubmitting ? <><LoaderCircle className="animate-spin" /> Salvando</> : 'Salvar'}
       </Button>

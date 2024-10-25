@@ -61,7 +61,7 @@ export const ItemsDisplay = ({ categories, items, menuSlug, plan, qtdItems }: It
   const [categoryId, setCategoryId] = useState<string>()
 
   // const qtdItems = items?.length
-  console.log(qtdItems)
+  // console.log(qtdItems)
 
   useEffect(() => {
     if (items) {
@@ -121,21 +121,22 @@ export const ItemsDisplay = ({ categories, items, menuSlug, plan, qtdItems }: It
       <section className="grid grid-cols-1 min-[375px]:grid-cols-2 lg:grid-cols-3 gap-6">
         <article className="flex flex-col gap-y-2">
 
-          {plan === "pro" || plan === "free" && qtdItems < 1 ? (<Link href={`${menuSlug}/register-item`} >
-            <div className="w-full aspect-[16/12] border-2 rounded-md border-dashed border-zinc-400 
-                flex flex-col items-center justify-center cursor-pointer">
-              <Plus className="size-8 sm:size-12 md:size-8 min-[880px]:size-12 text-zinc-600 text-center" />
-              <p className="muted-foreground text-sm sm:text-base md:text-sm min-[880px]:text-base text-center">Adicionar um novo item</p>
-            </div>
-          </Link>) : (
-            <BillingDialog>
+          {plan === "pro" || plan === "free" && qtdItems < 1 ?
+            (<Link href={`${menuSlug}/register-item`} >
               <div className="w-full aspect-[16/12] border-2 rounded-md border-dashed border-zinc-400 
                 flex flex-col items-center justify-center cursor-pointer">
                 <Plus className="size-8 sm:size-12 md:size-8 min-[880px]:size-12 text-zinc-600 text-center" />
                 <p className="muted-foreground text-sm sm:text-base md:text-sm min-[880px]:text-base text-center">Adicionar um novo item</p>
               </div>
-            </BillingDialog>
-          )}
+            </Link>) : (
+              <BillingDialog>
+                <div className="w-full aspect-[16/12] border-2 rounded-md border-dashed border-zinc-400 
+                flex flex-col items-center justify-center cursor-pointer">
+                  <Plus className="size-8 sm:size-12 md:size-8 min-[880px]:size-12 text-zinc-600 text-center" />
+                  <p className="muted-foreground text-sm sm:text-base md:text-sm min-[880px]:text-base text-center">Adicionar um novo item</p>
+                </div>
+              </BillingDialog>
+            )}
 
           <div className="flex flex-col text-zinc-900" >
             <h2 className="font-medium text-sm sm:text-base">Novo item</h2>

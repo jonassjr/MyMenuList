@@ -1,5 +1,8 @@
 import { getMenuData } from "@/app/(users)/actions"
 import { Form } from "./_components/form"
+import { getPlanByPrice } from "@/services/stripe"
+import { auth } from "@/services/auth"
+import { notFound } from "next/navigation"
 
 interface PageProps {
   params: {
@@ -10,7 +13,16 @@ interface PageProps {
 export default async function RegisterItem({ params }: PageProps) {
 
   const { slug } = params
+
   const menu = await getMenuData(slug)
+
+  const session = await auth()
+
+  const plan = getPlanByPrice(session?.user.stripePriceId as string)
+
+  if (plan.name !== "pro") {
+    notFound()
+  }
 
   return (
     <main className="">

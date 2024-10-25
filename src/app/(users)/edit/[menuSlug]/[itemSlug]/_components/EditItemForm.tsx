@@ -47,7 +47,7 @@ interface ItemProps {
   category: CategoryProps
   availability: string
   ingredients: string // Ou pode ser string[] se for uma lista de strings
-  tags: string // Ou pode ser string[] se for uma lista de tags
+  tags: string | null// Ou pode ser string[] se for uma lista de tags
   cautions: string
   description: string
 }
@@ -83,7 +83,7 @@ export const EditItemForm = ({ menu, itemToEdit }: FormProps) => {
       name: item?.name,
       ingredients: item ? JSON.parse(item?.ingredients) : undefined,
       price: item?.price,
-      tags: item ? JSON.parse(item?.tags) : undefined
+      tags: item?.tags ? JSON.parse(item?.tags) : undefined
     },
     resolver: zodResolver(updateMenuItem),
   })
@@ -270,7 +270,7 @@ export const EditItemForm = ({ menu, itemToEdit }: FormProps) => {
           <Label className="relative w-full">Tags
             {errors.tags && <p className="absolute top-0 right-0 text-red-400 text-xs">{errors.tags.message}</p>}
           </Label>
-          <TagInput onChange={(tags: string[]) => setValue("tags", tags, { shouldValidate: true })} defaultValue={item?.tags} />
+          <TagInput onChange={(tags: string[]) => setValue("tags", tags, { shouldValidate: true })} defaultValue={item?.tags || ''} />
         </div>
       </section>
 

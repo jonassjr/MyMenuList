@@ -39,7 +39,15 @@ export default async function EditMenuPage({ params }: { params: { menuSlug: str
           {menu && <CoverImgUploader menuId={menu?.id} initialCoverImg={menu.coverImg ?? undefined} />}
         </div>
 
-        {qtdItems && <ItemsDisplay categories={categories} items={items} menuSlug={menuSlug} plan={plan.name} qtdItems={qtdItems} />}
+        {qtdItems !== undefined &&
+          <ItemsDisplay
+            categories={categories}
+            items={items}
+            menuSlug={menuSlug}
+            plan={plan.name}
+            qtdItems={qtdItems}
+          />
+        }
       </div>
     </main>
   )

@@ -33,7 +33,7 @@ export const BillingDialog = ({ children }: BillingDialogProps) => {
       </DialogTrigger>
       <DialogContent className="flex flex-col">
         <DialogHeader>
-          <DialogTitle>Você não pode mais criar menus.</DialogTitle>
+          <DialogTitle>Você não pode criar mais menus.</DialogTitle>
           <DialogDescription>
             Assine nosso serviço e tenha acesso ilimitado a criação de menus e de items.
           </DialogDescription>
