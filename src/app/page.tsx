@@ -1,7 +1,17 @@
+import { Nav } from "@/components/Nav";
+
 export default function Home() {
   return (
-    <main>
-      <h1>Olá página principal</h1>
+    <main className="min-h-screen bg-gradient">
+      <header>
+        <Nav />
+      </header>
+      <section>
+
+      </section>
+      <section>
+
+      </section>
     </main>
   )
 }

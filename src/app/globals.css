@@ -66,6 +66,13 @@
   }
 }
 
+@layer components {
+  .max-container {
+    max-width: 1120px;
+    margin: 0 auto;
+  }
+}
+
 @layer base {
   * {
     @apply border-border;
@@ -76,18 +83,16 @@
   }
 }
 
-.custom-scrollbar::-webkit-scrollbar {
-  @apply w-2
+@layer utilities {
+  .padding-y {
+    @apply py-8 md:py-24;
+  }
+
+  .padding-x {
+    @apply sm:px-16 px-4;
+  }
 }
 
-.custom-scrollbar::-webkit-scrollbar-track {
-  @apply bg-zinc-900 rounded-r-lg
-}
-
-.custom-scrollbar::-webkit-scrollbar-thumb {
-  @apply bg-zinc-600 rounded-lg
-}
-
-.custom-scrollbar::-webkit-scrollbar-thumb:hover {
-  @apply bg-zinc-800 rounded-md
+.bg-gradient {
+  background-image: radial-gradient(circle, rgba(250,250,250, 1) 0%, rgba(248,248,248,1) 50%, rgba(250,250,250, 1) 100%);
 }
