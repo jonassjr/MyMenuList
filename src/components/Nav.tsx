@@ -2,12 +2,14 @@
 
 import Image from "next/image"
 
-const navLinks = ['Sobre', 'Preços', 'Perguntas Frequentes']
+const navLinks: string[] = ['Recursos', 'Preços', 'Perguntas Frequentes']
 
 import Logo from "../../public/Logo-v2.svg"
 
 import { useState } from "react"
 import { Menu, X } from "lucide-react"
+import Link from "next/link"
+import { Button } from "./ui/button"
 
 export const Nav = () => {
   const [toggle, setToggle] = useState(false);
@@ -27,6 +29,11 @@ export const Nav = () => {
                 <a href={`#${link}`}>{link}</a>
               </li>
             ))}
+            <li>
+              <Link href={"/login"}>
+                <Button className="rounded-full px-6">Login</Button>
+              </Link>
+            </li>
           </ul>
 
           <div className=" absolute top-7 right-4 sm:hidden"
@@ -44,6 +51,11 @@ export const Nav = () => {
                 <a href={`#${link}`}>{link}</a>
               </li>
             ))}
+            <li>
+              <Link href={"/login"}>
+                <Button className="rounded-full px-6">Login</Button>
+              </Link>
+            </li>
           </ul>
         </div>
 

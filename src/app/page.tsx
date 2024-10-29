@@ -1,4 +1,7 @@
 import { Nav } from "@/components/Nav";
+import { Hero } from "@/sections/Hero";
+import { Prices } from "@/sections/Prices";
+import { Resources } from "@/sections/Resources";
 
 export default function Home() {
   return (
@@ -6,11 +9,14 @@ export default function Home() {
       <header>
         <Nav />
       </header>
-      <section>
-
+      <section className="padding-x padding-y">
+        <Hero />
       </section>
-      <section>
-
+      <section className="padding-x padding-y">
+        <Resources />
+      </section>
+      <section className="padding-x padding-y">
+        <Prices />
       </section>
     </main>
   )
