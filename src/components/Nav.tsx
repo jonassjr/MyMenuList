@@ -2,7 +2,7 @@
 
 import Image from "next/image"
 
-const navLinks: string[] = ['Recursos', 'Preços', 'Perguntas Frequentes']
+const navLinks: string[] = ['Recursos', 'Preços']
 
 import Logo from "../../public/Logo-v2.svg"
 
@@ -35,7 +35,6 @@ export const Nav = () => {
               </Link>
             </li>
           </ul>
-
           <div className=" absolute top-7 right-4 sm:hidden"
             onClick={() => setToggle(false)}
           >

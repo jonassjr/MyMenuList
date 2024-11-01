@@ -2,7 +2,7 @@ import { Pencil, QrCode, SquareMenu } from "lucide-react"
 
 export const Resources = () => {
   return (
-    <section id="Recursos" className="w-full flex flex-col gap-y-8">
+    <section id="Recursos" className="w-full flex flex-col gap-y-8 scroll-my-20">
       <span className="self-center bg-zinc-200 rounded-full py-2 px-5">Recursos</span>
       <p className="text-center text-muted-foreground">Recursos práticos para criar, editar e acessar menus digitais com um simples QR Code.</p>
       <div className="flex gap-4">
