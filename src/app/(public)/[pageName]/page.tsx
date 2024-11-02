@@ -1,6 +1,6 @@
 import Image from "next/image"
 import Link from "next/link"
-import Logo from "../../../../public/MyMenuList-Logo.svg"
+import Logo from "../../../../public/Logo-v1.svg"
 import { getPageData } from "@/app/(users)/actions"
 import { MenuCard } from "./_components/MenuCard"
 

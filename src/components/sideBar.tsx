@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import Logo from "../../public/MyMenuList-Logo.svg"
+import Logo from "../../public/Logo-v1.svg"
 import { usePathname } from "next/navigation";
 
 import { CircleArrowUp, LayoutDashboardIcon, Settings, CircleUser, CircleHelp, Home, X } from "lucide-react";
