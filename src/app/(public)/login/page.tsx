@@ -6,16 +6,6 @@ import GoogleIcon from "../../../../public/Google.svg"
 import { signIn } from "next-auth/react"
 
 import Logo from "../../../../public/Logo-v1.svg"
-import Link from "next/link"
-
-import { cn } from "@/lib/utils"
-// import { buttonVariants } from "@/registry/new-york/ui/button"
-// import { UserAuthForm } from "@/app/(app)/examples/authentication/components/user-auth-form"
-
-// export const metadata: Metadata = {
-//   title: "Authentication",
-//   description: "Authentication forms built using the components.",
-// }
 
 export default function LogIn() {
 

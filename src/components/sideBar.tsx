@@ -70,9 +70,9 @@ export const SideBar = ({ user }: UserData) => {
           </Link>
         </div>
         <div className="flex flex-col gap-y-2">
-          <Link href={"/help"}
+          <Link href={"/support"}
             className={` w-full flex gap-x-4 text-white items-center text-sm font-medium px-4 py-2 transition-colors duration-300
-            rounded-md  ${pathName === "/help" ? "bg-white text-zinc-800 hover:bg-white" : "hover:bg-zinc-700"}`}>
+            rounded-md  ${pathName === "/support" ? "bg-white text-zinc-800 hover:bg-white" : "hover:bg-zinc-700"}`}>
             <CircleHelp />
             Suporte
           </Link>
