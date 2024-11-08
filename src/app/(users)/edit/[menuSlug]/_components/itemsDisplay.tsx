@@ -1,10 +1,11 @@
 "use client"
 
+import { useEffect, useState } from "react"
+
 import { Input } from "@/components/ui/input"
 
-import { Plus, Search } from "lucide-react"
-
 import Link from "next/link"
+
 import Image from "next/image"
 
 import {
@@ -15,8 +16,31 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select"
-import { useEffect, useState } from "react"
+
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
+
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog"
+
 import { BillingDialog } from "@/components/BillingDialog"
+
+import { Plus, Search, EllipsisVertical, LoaderCircle } from "lucide-react"
+
+import { Button } from "@/components/ui/button"
+import { useForm } from "react-hook-form"
+import { useRouter } from "next/navigation"
+import { deleteImage } from "@/lib/supabase/upload"
+import { deleteItem } from "@/app/(users)/actions"
 
 interface Category {
   id: string
@@ -59,9 +83,11 @@ export const ItemsDisplay = ({ categories, items, menuSlug, plan, qtdItems }: It
   const [searchTerm, setSearchTerm] = useState<string | undefined>("")
   const [menuItems, setMenuItems] = useState(items)
   const [categoryId, setCategoryId] = useState<string>()
+  const [itemToDelete, setItemToDelete] = useState<string | null>(null)
+  const [imgToDelete, setImgToDelete] = useState<string | null>(null)
+  const [isSubmitting, setIsSubmitting] = useState<boolean>(false)
 
-  // const qtdItems = items?.length
-  // console.log(qtdItems)
+  const [isDialogOpen, setIsDialogOpen] = useState(false)
 
   useEffect(() => {
     if (items) {
@@ -80,6 +106,22 @@ export const ItemsDisplay = ({ categories, items, menuSlug, plan, qtdItems }: It
       setMenuItems(filteredItems)
     }
   }, [items, categoryId, searchTerm])
+
+  const router = useRouter()
+
+  const onDelete: () => Promise<void> = async () => {
+    setIsSubmitting(true)
+    itemToDelete && await deleteItem(itemToDelete)
+    setItemToDelete(null)
+
+    const imgPath = imgToDelete && imgToDelete.split("/").pop()
+
+    imgToDelete && await deleteImage(`${imgPath}`)
+    setImgToDelete(null)
+
+    setIsDialogOpen(false)
+    router.refresh()
+  }
 
   return (
     <div className="flex flex-col gap-y-8">
@@ -146,7 +188,24 @@ export const ItemsDisplay = ({ categories, items, menuSlug, plan, qtdItems }: It
 
         {plan === "pro" && menuItems ? (
           menuItems.map((item) => (
-            <article className="flex flex-col gap-y-2" key={item.id}>
+            <article className="relative flex flex-col gap-y-2" key={item.id}>
+              <DropdownMenu>
+                <DropdownMenuTrigger className="z-10 absolute top-2 right-2 bg-zinc-100 rounded-full p-1">
+                  <EllipsisVertical size={18} className="text-zinc-800" />
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="start">
+                  <DropdownMenuItem
+                    onClick={() => {
+                      setItemToDelete(item.id)
+                      setImgToDelete(item.img)
+                      setIsDialogOpen(true)
+                    }}
+                  >
+                    Excluir
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+
               <Link href={`${menuSlug}/${item.slug}`} >
                 <div className="relative w-full aspect-[16/12] bg-zinc-300 rounded-md overflow-hidden">
                   <Image src={item.img} fill className="object-cover" alt={`imagem do item ${item.name}`} />
@@ -161,7 +220,23 @@ export const ItemsDisplay = ({ categories, items, menuSlug, plan, qtdItems }: It
           ))
         ) : (
           menuItems && menuItems.slice(0, 1).map((item) => (
+
             <article className="flex flex-col gap-y-2" key={item.id}>
+              <DropdownMenu>
+                <DropdownMenuTrigger className="z-10 absolute top-2 right-2 bg-zinc-100 rounded-full p-1">
+                  <EllipsisVertical size={18} className="text-zinc-800" />
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="start">
+                  <DropdownMenuItem
+                    onClick={() => {
+                      setIsDialogOpen(true)
+                    }}
+                  >
+                    Excluir
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+
               <Link href={`${menuSlug}/${item.slug}`} >
                 <div className="relative w-full aspect-[16/12] bg-zinc-300 rounded-md overflow-hidden">
                   <Image src={item.img} fill className="object-cover" alt={`imagem do item ${item.name}`} />
@@ -172,10 +247,30 @@ export const ItemsDisplay = ({ categories, items, menuSlug, plan, qtdItems }: It
                 <h2 className="font-medium text-sm sm:text-base">{item.name}</h2>
                 <p className="text-xs sm:text-sm">{item.description}</p>
               </div>
+
             </article>
           ))
         )}
       </section>
+
+      <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+        <DialogContent className="flex flex-col">
+          <DialogHeader>
+            <DialogTitle>Você tem certeza?</DialogTitle>
+            <DialogDescription>
+              Esta ação não poderá ser desfeita, ao clicar em exlcuir isto irá remover
+              os dados do seu menu de nossos servidores.
+            </DialogDescription>
+          </DialogHeader>
+          <Button
+            onClick={onDelete}
+            disabled={isSubmitting}
+            className={`w-fit self-end gap-x-2 disabled:pointer-events-auto disabled:cursor-not-allowed `}
+          >
+            {isSubmitting ? <><LoaderCircle className="animate-spin" /> Excluindo</> : 'Excluir'}
+          </Button>
+        </DialogContent>
+      </Dialog>
     </div>
   )
 }

@@ -77,7 +77,7 @@ export const Form = ({ menu }: FormProps) => {
   const router = useRouter()
 
   if (Object.keys(errors).length > 0) {
-    console.log("Validation errors:", errors);
+    console.log("Validation errors:", errors)
   }
 
   const onSubmit: SubmitHandler<FormValues> = async (data) => {
@@ -89,15 +89,14 @@ export const Form = ({ menu }: FormProps) => {
       data.imgUrl = imgUrl
 
       delete data.imgFile
-      console.log(data)
       if (!menu) return
 
       try {
-
         await createItem(data, menu.id)
+
         reset()
 
-        router.replace(`/edit/${menu.slug}`)
+        router.push(`/edit/${menu.slug}`)
 
       } catch (error) {
         console.log(error)

@@ -128,11 +128,12 @@ export const ItemsDisplay = ({ categories, items, menuSlug }: ItemsDisplayProps)
                 <span className="text-white grid place-content-center bg-zinc-700 rounded text-sm px-2 h-7 whitespace-nowrap">R$ {item.price}</span>
               </div>
               <p className="text-xs sm:text-sm">{item.description}</p>
-              <div className="mt-4 flex gap-x-2">
-                {(JSON.parse(item.tags) as string[]).map((tag, i) => (
-                  <span key={i} className="text-[13px] bg-border px-1 rounded">{tag}</span>
-                ))}
-              </div>
+              {item.tags &&
+                <div className="mt-4 flex gap-x-2">
+                  {(JSON.parse(item.tags) as string[]).map((tag, i) => (
+                    <span key={i} className="text-[13px] bg-border px-1 rounded">{tag}</span>
+                  ))}
+                </div>}
             </div>
           </article>
         ))}

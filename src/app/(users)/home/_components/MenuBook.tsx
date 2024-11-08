@@ -62,6 +62,7 @@ export const MenuBook = ({ menuData, index }: MenuBookProps) => {
 
   const [isSheetOpen, setIsSheetOpen] = useState(false)
   const [isDialogOpen, setIsDialogOpen] = useState(false)
+  const [isLoading, setIsLoading] = useState(false)
 
   const { register, handleSubmit, reset, formState: { errors, isSubmitting } } = useForm<FormValues>({
     defaultValues: {
@@ -79,7 +80,10 @@ export const MenuBook = ({ menuData, index }: MenuBookProps) => {
   })
 
   const onDelete: () => Promise<void> = async () => {
+    setIsLoading(true)
+
     await deleteMenu(id)
+
     router.refresh()
   }
 
@@ -157,10 +161,10 @@ export const MenuBook = ({ menuData, index }: MenuBookProps) => {
           </DialogHeader>
           <Button
             onClick={onDelete}
-            disabled={isSubmitting}
+            disabled={isLoading}
             className={`w-fit self-end gap-x-2 disabled:pointer-events-auto disabled:cursor-not-allowed `}
           >
-            {isSubmitting ? <><LoaderCircle className="animate-spin" /> Excluindo</> : 'Excluir'}
+            {isLoading ? <><LoaderCircle className="animate-spin" /> Excluindo</> : 'Excluir'}
           </Button>
         </DialogContent>
       </Dialog>

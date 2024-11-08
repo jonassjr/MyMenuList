@@ -320,3 +320,19 @@ export const getItemById = async (itemSlug: string, menuId: string) => {
 
   return item
 }
+
+export const deleteItem = async (itemId: string) => {
+  const session = await auth()
+
+  if (!session?.user?.id) {
+    throw new Error("User not authenticated")
+  }
+  console.log(itemId)
+
+  await prisma.items.delete({
+    where: {
+      id: itemId
+    }
+  })
+
+}
