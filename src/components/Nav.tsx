@@ -25,12 +25,16 @@ export const Nav = () => {
           shadow sm:hidden z-20`}>
           <ul className="flex flex-col items-center gap-y-4">
             {navLinks.map((link, i) => (
-              <li key={i} className="font-semibold">
-                <a href={`#${link}`}>{link}</a>
+              <li key={i} className="font-semibold hover:text-zinc-600">
+                <a href={`#${link}`}
+                  onClick={() => setToggle(false)}
+                >{link}</a>
               </li>
             ))}
             <li>
-              <Link href={"/login"}>
+              <Link href={"/login"}
+                onClick={() => setToggle(false)}
+              >
                 <Button className="rounded-full px-6">Login</Button>
               </Link>
             </li>
@@ -46,13 +50,19 @@ export const Nav = () => {
         <div className="hidden sm:block">
           <ul className="flex items-center gap-x-4">
             {navLinks.map((link, i) => (
-              <li key={i} className="font-semibold">
-                <a href={`#${link}`}>{link}</a>
+              <li key={i} className="font-semibold hover:text-zinc-600 ">
+                <a href={`#${link}`}
+                >
+                  {link}
+                </a>
               </li>
             ))}
             <li>
-              <Link href={"/login"}>
-                <Button className="rounded-full px-6">Login</Button>
+              <Link href={"/login"}
+              >
+                <Button
+                  variant={"secondary"}
+                  className="rounded-md bg-transparent border-2 border-zinc-900 text-zinc-900 px-6">Login</Button>
               </Link>
             </li>
           </ul>
@@ -64,6 +74,7 @@ export const Nav = () => {
           <Menu />
         </div>
       </nav>
+      <hr className="mt-5" />
     </header>
   )
 }

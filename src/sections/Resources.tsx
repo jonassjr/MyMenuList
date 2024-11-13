@@ -5,7 +5,7 @@ export const Resources = () => {
     <section id="Recursos" className="w-full flex flex-col gap-y-8 scroll-my-20">
       <span className="self-center bg-zinc-200 rounded-full py-2 px-5">Recursos</span>
       <p className="text-center text-muted-foreground">Recursos práticos para criar, editar e acessar menus digitais com um simples QR Code.</p>
-      <div className="flex gap-4">
+      <div className="flex items-center flex-col lg:flex-row gap-4">
         <article className="border rounded w-full min-w-[240px] p-4">
           <span className="w-fit flex bg-zinc-200 p-[10px] rounded-full">
             <SquareMenu className="text-zinc-700" />

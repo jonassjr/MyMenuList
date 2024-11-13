@@ -19,7 +19,7 @@ export default function Home() {
       <section className="padding-x padding-y">
         <Prices />
       </section>
-      <footer className="padding-x padding-y">
+      <footer className="padding-x pt-8 md:pt-24 pb-2">
         <Footer />
       </footer>
     </main>

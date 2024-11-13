@@ -31,7 +31,7 @@ interface Item {
   name: string;
   slug: string | null;
   price: string;
-  tags: string;
+  tags: string | null
   ingredients: string;
   description: string;
   availability: string;
@@ -125,7 +125,10 @@ export const ItemsDisplay = ({ categories, items, menuSlug }: ItemsDisplayProps)
             <div className="flex flex-col text-zinc-900">
               <div className="flex gap-y-1 justify-between">
                 <h2 className="font-medium text-sm sm:text-base">{item.name}</h2>
-                <span className="text-white grid place-content-center bg-zinc-700 rounded text-sm px-2 h-7 whitespace-nowrap">R$ {item.price}</span>
+                <span
+                  className="text-zinc-800 grid place-content-center bg-border rounded text-sm px-2 h-7 whitespace-nowrap">
+                  R$ {item.price}
+                </span>
               </div>
               <p className="text-xs sm:text-sm">{item.description}</p>
               {item.tags &&

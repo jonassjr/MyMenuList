@@ -1,6 +1,6 @@
 import Image from "next/image"
 import Link from "next/link"
-import Logo from "../../../../public/Logo-v1.svg"
+import Logo from "../../../../public/Logo-v2.svg"
 import { getPageData } from "@/app/(users)/actions"
 import { MenuCard } from "./_components/MenuCard"
 
@@ -12,7 +12,7 @@ export default async function Page({ params }: { params: { pageName: string } })
 
   return (
     <main className="max-w-[1440px] mx-auto px-4 sm:px-16">
-      <header className="py-4 bg-zinc-300">
+      <header className="py-4 border-b">
         <Link href={"/"}>
           <Image src={Logo} width={155} alt="MyMenuList logo image" />
         </Link>
