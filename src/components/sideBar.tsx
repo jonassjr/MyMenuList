@@ -39,7 +39,7 @@ export const SideBar = ({ user }: UserData) => {
       flex flex-col z-10 shadow-2xl md:shadow ${toggle ? "left-0" : "-left-full"}`}>
       <header className="flex justify-between px-4 items-center md:grid place-content-center py-4">
         <Link href={"/"}>
-          <Image src={Logo} width={155} alt="MyMenuList logo image" />
+          <Image src={Logo} width={145} alt="MyMenuList logo image" />
         </Link>
         <div
           className="block md:hidden"

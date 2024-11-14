@@ -19,7 +19,7 @@ export default function LogIn() {
       <div className="relative hidden h-full flex-col bg-muted p-10 text-white lg:flex">
         <div className="absolute inset-0 bg-zinc-900" />
         <div className="relative z-20 flex items-center text-lg font-medium">
-          <Image src={Logo} alt={"Meu Menu Logo"} />
+          <Image src={Logo} alt={"Meu Menu Logo"} width={145} />
         </div>
 
         <div className="relative z-20 mt-auto">

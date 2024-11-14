@@ -3,9 +3,10 @@
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { LoaderCircle } from "lucide-react"
+import { LoaderCircle, Slash } from "lucide-react"
 import { SubmitHandler, useForm } from "react-hook-form"
 import { updatePageName } from "../../actions"
+import { useRouter } from "next/navigation"
 
 interface FormValue {
   pageName: string | undefined
@@ -22,12 +23,15 @@ export const PageNameForm = ({ pageName }: PageNameFormProps) => {
     },
   })
 
+  const router = useRouter()
+
   const onSubmit: SubmitHandler<FormValue> = async (data) => {
     const pageName = data.pageName
 
     try {
       if (pageName) {
         await updatePageName(pageName)
+        router.refresh()
       }
 
     } catch (err) {
@@ -41,13 +45,18 @@ export const PageNameForm = ({ pageName }: PageNameFormProps) => {
     <form
       onSubmit={handleSubmit(onSubmit)}
       className="w-full flex flex-col gap-y-3">
-      <div className="flex items-center gap-x-2">
-        <div className="flex flex-col gap-y-3">
+      <div className="flex flex-col sm:flex-row items-center gap-y-2 gap-x-6">
+        <div className="flex w-full sm:w-fit flex-col gap-y-3">
           <p className="text-muted-foreground text-sm">Endereço</p>
-          <p className="border p-[0.6rem] rounded-md self-end text-sm font-semibold">www.meumenu.com</p>
-        </div>
+          <div className="flex items-center">
+            <p
+              className="w-fit border p-[0.6rem] rounded-md text-sm font-semibold">
+              {`${process.env.NEXT_PUBLIC_APP_URL}`}
+            </p>
+            <span className="relative left-3 text-2xl">/</span>
+          </div>
 
-        <span className="text-2xl mt-5">/</span>
+        </div>
 
         <div className="w-full flex flex-col gap-y-3">
           <Label htmlFor="name" className="flex justify-between w-full">
@@ -58,7 +67,6 @@ export const PageNameForm = ({ pageName }: PageNameFormProps) => {
           <Input
             id="pageName"
             type="text"
-            placeholder="Lugar-da-Massa"
             {...register("pageName", {
               pattern: {
                 value: /^[a-zA-Z0-9\-]+$/,

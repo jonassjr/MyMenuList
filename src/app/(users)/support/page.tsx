@@ -15,7 +15,7 @@ export default function Support() {
         <Faqs />
       </section>
 
-      <section className="flex flex-col gap-y-2">
+      <section className="flex flex-col gap-y-8">
         <header className="flex flex-col gap-y-2">
           <h1 className="text-2xl sm:text-4xl font-medium">Entre em contato</h1>
           <p className="text-base text-muted-foreground">Caso tenha alguma duvida ou precise de uma ajuda com algo em especifico.</p>
