@@ -37,7 +37,6 @@ import { BillingDialog } from "@/components/BillingDialog"
 import { Plus, Search, EllipsisVertical, LoaderCircle } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
-import { useForm } from "react-hook-form"
 import { useRouter } from "next/navigation"
 import { deleteImage } from "@/lib/supabase/upload"
 import { deleteItem } from "@/app/(users)/actions"
@@ -214,7 +213,7 @@ export const ItemsDisplay = ({ categories, items, menuSlug, plan, qtdItems }: It
 
               <div className="flex flex-col text-zinc-900">
                 <h2 className="font-medium text-sm sm:text-base">{item.name}</h2>
-                <p className="text-xs sm:text-sm">{item.description}</p>
+                <p className="text-xs sm:text-sm line-clamp-2">{item.description}</p>
               </div>
             </article>
           ))
@@ -237,7 +236,7 @@ export const ItemsDisplay = ({ categories, items, menuSlug, plan, qtdItems }: It
                 </DropdownMenuContent>
               </DropdownMenu>
 
-              <Link href={`${menuSlug}/${item.slug}`} >
+              <Link href={`${menuSlug}/${item.slug}`}>
                 <div className="relative w-full aspect-[16/12] bg-zinc-300 rounded-md overflow-hidden">
                   <Image src={item.img} fill className="object-cover" alt={`imagem do item ${item.name}`} />
                 </div>
@@ -245,9 +244,8 @@ export const ItemsDisplay = ({ categories, items, menuSlug, plan, qtdItems }: It
 
               <div className="flex flex-col text-zinc-900">
                 <h2 className="font-medium text-sm sm:text-base">{item.name}</h2>
-                <p className="text-xs sm:text-sm">{item.description}</p>
+                <p className="text-xs sm:text-sm line-clamp-2">{item.description}</p>
               </div>
-
             </article>
           ))
         )}

@@ -44,8 +44,7 @@ export const IngredientInput = ({ onChange, defaultValue }: ingredientsInputProp
       e.preventDefault()
 
       if (
-        userInput.trim() !== "" &&
-        userInput.length <= 12
+        userInput.trim() !== ""
       ) {
         handleAddTag(userInput);
         setUserInput("")

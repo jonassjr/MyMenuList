@@ -2,7 +2,7 @@
 
 import { Input } from "@/components/ui/input"
 
-import { Plus, Search } from "lucide-react"
+import { Search } from "lucide-react"
 
 import Link from "next/link"
 import Image from "next/image"
@@ -48,7 +48,7 @@ interface Item {
 interface ItemsDisplayProps {
   categories: Category[] | undefined
   items: Item[] | undefined
-  menuSlug: string
+  menuSlug: string | undefined
 }
 
 export const ItemsDisplay = ({ categories, items, menuSlug }: ItemsDisplayProps) => {
@@ -130,7 +130,7 @@ export const ItemsDisplay = ({ categories, items, menuSlug }: ItemsDisplayProps)
                   R$ {item.price}
                 </span>
               </div>
-              <p className="text-xs sm:text-sm">{item.description}</p>
+              <p className="text-xs sm:text-sm line-clamp-2">{item.description}</p>
               {item.tags &&
                 <div className="mt-4 flex gap-x-2">
                   {(JSON.parse(item.tags) as string[]).map((tag, i) => (

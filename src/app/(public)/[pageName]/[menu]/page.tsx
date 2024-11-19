@@ -6,12 +6,13 @@ import coverReference from "../../../../../public/cover-reference.svg"
 import { getMenuData } from "@/app/(users)/actions"
 import { ItemsDisplay } from "./_components/ItemsDisplay"
 
-export default async function Page({ params }: { params: { menuSlug: string } }) {
-  const { menuSlug } = params
+export default async function Page({ params }: { params: { menu: string } }) {
+  const { menu } = params
 
-  const menu = await getMenuData(menuSlug)
-  const items = menu?.items
-  const categories = menu?.categories
+  const menuData = await getMenuData(menu)
+  const items = menuData?.items
+  const categories = menuData?.categories
+
 
   return (
     <main className="max-w-[1440px] mx-auto px-4 sm:px-16">
@@ -21,17 +22,18 @@ export default async function Page({ params }: { params: { menuSlug: string } })
         </Link>
       </header>
 
-      <div className="flex flex-col pt-8 pb-8 md:pb-24 gap-y-8">
+      <section className="flex flex-col pt-8 pb-8 md:pb-24 gap-y-8">
         <section>
           <div className="relative w-full aspect-[16/5] rounded-md overflow-hidden">
-            <Image src={menu?.coverImg || coverReference} fill className="object-cover" alt="cover Image" />
+            <Image src={menuData?.coverImg || coverReference} fill className="object-cover" alt="cover Image" />
           </div>
         </section>
 
         <section>
-          <ItemsDisplay categories={categories} items={items} menuSlug={menuSlug} />
+          <ItemsDisplay categories={categories} items={items} menuSlug={menuData?.slug} />
         </section>
-      </div>
+      </section>
+
       <footer className="w-full pt-8 md:pt-24">
         <div className="flex mb-10 flex-col justify-center items-center">
           <Image src={Logo} alt="Meu Menu logo" />

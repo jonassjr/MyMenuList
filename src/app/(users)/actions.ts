@@ -265,7 +265,6 @@ export const updateItem = async (data: z.infer<typeof updateMenuItem>, itemId: s
   if (imgUrl !== itemToUpdate.img) {
     const oldFilePath = itemToUpdate.img.split("/").pop()
     await deleteImage(`${oldFilePath}`)
-    console.log("deletado")
   }
 
   let slug
@@ -306,8 +305,6 @@ export const getItemById = async (itemSlug: string, menuId: string) => {
     throw new Error("User not authenticated")
   }
 
-  console.log(itemSlug, menuId)
-
   const item = await prisma.items.findFirst({
     where: {
       slug: itemSlug,
@@ -327,7 +324,6 @@ export const deleteItem = async (itemId: string) => {
   if (!session?.user?.id) {
     throw new Error("User not authenticated")
   }
-  console.log(itemId)
 
   await prisma.items.delete({
     where: {
