@@ -12,13 +12,9 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
     clientSecret: process.env.GOOGLE_CLIENT_SECRET
   })],
   secret: process.env.NEXTAUTH_SECRET,
-  // callbacks: {
-  //   async session({ session }) {
-  //     return session
-  //   }
-  // },
   events: {
     createUser: async ({ user }) => {
+
       try {
         const pageName = await createPageName(user.name || '')
         await prisma.user.update({
