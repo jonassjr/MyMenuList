@@ -18,7 +18,7 @@ Meu menu é um SaaS feito em Next.js dedicado a criação, edição, visualizaç
 [![My Skills](https://skillicons.dev/icons?i=ts,next,prisma,supabase,react,tailwind,npm,git)](https://skillicons.dev)
 
 ## Página Home
-![preview.img](./public/HomePreview.png)
+![preview.img](./public/HomePreview.svg)
 
 ## instalação
 
@@ -53,10 +53,9 @@ Meu menu é um SaaS feito em Next.js dedicado a criação, edição, visualizaç
 - `/app/components`: Componentes reutilizáveis, como formulários e modais.
 - `/schema`: Schemas de validação e tipagem (Zod).
 - `/app/actions`: Abriga as funções assíncronas que realizam operações específicas no lado do servidor.
-Essas ações incluem:
-  Criação, edição e exclusão de menus e itens no banco de dados.
-  Operações relacionadas à autenticação, como criar um usuário após o login.
-  Em Next.js (com a estrutura do diretório app), as actions são uma alternativa para manter a lógica de servidor isolada, especialmente para Server Actions.
+Essas ações incluem: Criação, edição e exclusão de menus e itens no banco de dados.
+Operações relacionadas à autenticação, como criar um usuário após o login.
+  - Em Next.js (com a estrutura do diretório app), as actions são uma alternativa para manter a lógica de servidor isolada, especialmente para Server Actions.
 - `/app/lib`: Contém utilitários, configurações ou funções auxiliares reutilizáveis em diferentes partes do projeto, como por exemplos:
   integração com o Supabase para upload e gerenciamento de arquivos.
 - `/app/services`: Contém funções ou classes que encapsulam a lógica para interagir com APIs externas ou serviços específicos, como:
