@@ -162,7 +162,7 @@ export const ItemsDisplay = ({ categories, items, menuSlug, plan, qtdItems }: It
       <section className="grid grid-cols-1 min-[375px]:grid-cols-2 lg:grid-cols-3 gap-6">
         <article className="flex flex-col gap-y-2">
 
-          {plan === "pro" || plan === "free" && qtdItems < 1 ?
+          {plan === "pro" || plan === "free" && qtdItems < 15 ?
             (<Link href={`${menuSlug}/register-item`} >
               <div className="w-full aspect-[16/12] border-2 rounded-md border-dashed border-zinc-400 
                 flex flex-col items-center justify-center cursor-pointer">
@@ -218,7 +218,7 @@ export const ItemsDisplay = ({ categories, items, menuSlug, plan, qtdItems }: It
             </article>
           ))
         ) : (
-          menuItems && menuItems.slice(0, 1).map((item) => (
+          menuItems && menuItems.slice(0, 15).map((item) => (
 
             <article className="flex flex-col gap-y-2" key={item.id}>
               <DropdownMenu>
