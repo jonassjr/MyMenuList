@@ -1,36 +1,64 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+<div align="center" >
+  <img src="./public/Logo-v1.svg" width="40%"></img>
+</div>
 
-## Getting Started
+## Meu menu
 
-First, run the development server:
+Meu menu é um SaaS feito em Next.js dedicado a criação, edição, visualização e gerenciamento de menus digitais. com uma interface simples e intuitiva, ele permite que usuários adicionem, editem, excluam e disponibilize itens de seus menu, oferecendo uma solução facil e eficiente para gerenciamento de cardápios.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+## Principais recursos
+
+- CRUD Completo: Realize operações de Criar, Ler, Atualizar e Deletar em menus e itens.
+- Interface Responsiva: Projetado para funcionar perfeitamente em dispositivos móveis e desktops.
+- Tecnologias Modernas: Desenvolvido utilizando Next.js, garantindo performance, escalabilidade e uma base sólida para o futuro.
+- Personalização: Oferece flexibilidade para adaptar menus às necessidades do usuário.
+
+## Tecnologias utilizadas
+
+[![My Skills](https://skillicons.dev/icons?i=ts,next,prisma,supabase,react,tailwind,npm,git)](https://skillicons.dev)
+
+## Página Home
+![preview.img](./public/HomePreview.svg)
+
+## instalação
+
+
+- clone o repositorio
+  
+``` bash 
+  git clone https://github.com/jonassjr/MyMenuList.git
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+- instale dependências
+``` bash
+  npm install
+```
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- Configure as variáveis de ambiente no arquivo `.env` (exemplo incluído no repositório).
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+- Execute o projeto
+``` bash
+  npm run dev
+```
 
-## Learn More
 
-To learn more about Next.js, take a look at the following resources:
+## Estrutura do projeto
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+- `/app`: Diretório principal com páginas e rotas.
+- `/app/(public)`: Contem páginas e rotas públicas.
+- `/app/(users)`: Contem páginas e rotas privadas onde somente o usuarios logados.
+- `/app/api`: Contém rotas da API implementadas com a pasta api do Next.js.
+  - Rotas do NextAuth: Gerenciam a autenticação, como login, logout e callbacks.
+  - Webhooks do Stripe: Processam eventos de pagamento e notificações vindas do Stripe, como confirmações de pagamento ou atualizações de assinatura.
+- `/app/components`: Componentes reutilizáveis, como formulários e modais.
+- `/schema`: Schemas de validação e tipagem (Zod).
+- `/app/actions`: Abriga as funções assíncronas que realizam operações específicas no lado do servidor.
+Essas ações incluem: Criação, edição e exclusão de menus e itens no banco de dados.
+Operações relacionadas à autenticação, como criar um usuário após o login.
+  - Em Next.js (com a estrutura do diretório app), as actions são uma alternativa para manter a lógica de servidor isolada, especialmente para Server Actions.
+- `/app/lib`: Contém utilitários, configurações ou funções auxiliares reutilizáveis em diferentes partes do projeto, como por exemplos:
+  integração com o Supabase para upload e gerenciamento de arquivos.
+- `/app/services`: Contém funções ou classes que encapsulam a lógica para interagir com APIs externas ou serviços específicos, como:
+  - prisma
+  - NextAuth
+  - Stripe

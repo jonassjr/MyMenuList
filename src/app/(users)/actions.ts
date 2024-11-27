@@ -1,0 +1,334 @@
+'use server'
+
+import { auth } from "@/services/auth"
+import prisma from "@/services/database"
+import { z } from 'zod'
+import { menuItem, updateMenuItem, updatePageNameSchema, upsertMenu } from "./schema"
+import { createSlug } from "@/lib/utils"
+import { deleteImage } from "@/lib/supabase/upload"
+
+export async function getUserMenus() {
+
+  const session = await auth()
+
+  const menus = await prisma.menus.findMany({
+    where: {
+      userId: session?.user?.id
+    }, orderBy: {
+      createdAt: 'asc'
+    }
+  })
+
+  return menus
+}
+
+export async function getPageData(pageName: string) {
+
+  const menus = await prisma.user.findUnique({
+    where: {
+      pageName,
+    }, select: {
+      Menus: true,
+    }
+  })
+
+  return menus
+}
+
+export async function updatePageName(pageName: string) {
+
+  const session = await auth()
+
+  if (!session?.user?.id) {
+    throw new Error("User not authenticated")
+  }
+
+  const isPageNameExist = await prisma.user.findUnique({
+    where: {
+      pageName,
+    }
+  })
+
+  if (isPageNameExist) {
+    throw new Error("Nome já em uso!")
+
+  }
+
+  const updatedPageName = await prisma.user.update({
+    where: {
+      id: session?.user?.id,
+    },
+    data: {
+      pageName,
+    }
+  })
+
+  return updatedPageName
+}
+
+export async function getMenuData(slug: string) {
+
+  const session = await auth()
+
+  const menu = await prisma.menus.findFirst({
+    where: {
+      slug,
+      userId: session?.user?.id
+    }, include: {
+      items: {
+        select: {
+          id: true,
+          name: true,
+          price: true,
+          img: true,
+          category: true,
+          availability: true,
+          ingredients: true,
+          tags: true,
+          cautions: true,
+          description: true,
+          slug: true
+        }
+      },
+      categories: true
+    }
+  })
+
+  if (!menu) {
+    return null
+  }
+
+  return menu
+}
+
+export async function createMenu(input: z.infer<typeof upsertMenu>) {
+
+  const session = await auth()
+
+  if (!session?.user?.id) {
+    throw new Error("User not authenticated")
+  }
+
+  const slug = createSlug(input.title)
+
+  const menu = await prisma.menus.create({
+    data: {
+      title: input.title,
+      userId: session.user.id,
+      slug: slug
+    }
+  })
+
+  return menu
+}
+
+export async function updateMenu(input: z.infer<typeof upsertMenu>, id: string) {
+  const session = await auth()
+
+  if (!session?.user?.id) {
+    throw new Error("User not authenticated")
+  }
+
+  const slug = createSlug(input.title)
+
+  const updatedMenu = await prisma.menus.update({
+    where: {
+      id: id,
+    },
+    data: {
+      title: input.title,
+      userId: session.user.id,
+      slug: slug,
+    }
+  })
+
+  return updatedMenu
+}
+
+export const deleteMenu = async (id: string) => {
+  const session = await auth()
+
+  if (!session?.user?.id) {
+    throw new Error("User not authenticated")
+  }
+
+  await prisma.menus.delete({
+    where: {
+      id,
+    }
+  })
+
+}
+
+export const GetCategories = async (menuId: string) => {
+
+  const categories = await prisma.categories.findMany({
+    where: {
+      menusId: menuId,
+    }
+  })
+
+  return categories
+}
+
+export const CreateCategory = async (name: string, menuId: string) => {
+  const session = await auth()
+
+  if (!session?.user?.id) {
+    throw new Error("User not authenticated")
+  }
+
+  const isAlreadyExist = await prisma.categories.findUnique({
+    where: {
+      name,
+    }
+  })
+
+  if (isAlreadyExist) throw new Error("Categoria já existe!")
+
+  const category = await prisma.categories.create({
+    data: {
+      name,
+      menusId: menuId,
+    }
+  })
+
+  return category
+}
+
+export const updateCoverImg = async (menuId: string, coverImgUrl: string) => {
+  const session = await auth()
+
+  if (!session?.user?.id) {
+    throw new Error("User not authenticated")
+  }
+
+
+  const menu = await prisma.menus.update({
+    where: { id: menuId },
+    data: { coverImg: coverImgUrl }
+  })
+
+  return menu
+}
+
+export const createItem = async (data: z.infer<typeof menuItem>, menuId: string) => {
+  const { imgUrl, name, price, category, availability, ingredients, description, cautions, tags } = data
+
+  const session = await auth()
+
+  if (!session?.user?.id) {
+    throw new Error("User not authenticated")
+  }
+
+  const slug = createSlug(name)
+
+  const newItem = await prisma.items.create({
+    data: {
+      img: imgUrl,
+      name,
+      price,
+      category: {
+        connect: {
+          name: category
+        }
+      },
+      availability,
+      ingredients: JSON.stringify(ingredients),
+      description,
+      cautions,
+      slug,
+      tags: JSON.stringify(tags),
+      Menus: {
+        connect: {
+          id: menuId
+        }
+      }
+    }
+  })
+
+  return newItem
+}
+
+export const updateItem = async (data: z.infer<typeof updateMenuItem>, itemId: string) => {
+
+  const { imgUrl, name, price, category, availability, ingredients, description, cautions, tags } = data
+
+  const itemToUpdate = await prisma.items.findUnique({
+    where: {
+      id: itemId,
+    }
+  })
+
+  if (!itemToUpdate) throw new Error("Item não encontrado.")
+
+  if (imgUrl !== itemToUpdate.img) {
+    const oldFilePath = itemToUpdate.img.split("/").pop()
+    await deleteImage(`${oldFilePath}`)
+  }
+
+  let slug
+
+  if (name) {
+    slug = createSlug(name)
+  }
+
+  const updatedItem = await prisma.items.update({
+    where: {
+      id: itemToUpdate.id
+    },
+    data: {
+      img: imgUrl,
+      name,
+      price,
+      category: {
+        connect: {
+          name: category
+        }
+      },
+      availability,
+      ingredients: JSON.stringify(ingredients),
+      description,
+      cautions,
+      slug,
+      tags: JSON.stringify(tags),
+    }
+  })
+
+  return updatedItem;
+}
+
+export const getItemById = async (itemSlug: string, menuId: string) => {
+  const session = await auth()
+
+  if (!session?.user?.id) {
+    throw new Error("User not authenticated")
+  }
+
+  const item = await prisma.items.findFirst({
+    where: {
+      slug: itemSlug,
+      menusId: menuId
+    },
+    include: {
+      category: true
+    }
+  })
+
+  return item
+}
+
+export const deleteItem = async (itemId: string) => {
+  const session = await auth()
+
+  if (!session?.user?.id) {
+    throw new Error("User not authenticated")
+  }
+
+  await prisma.items.delete({
+    where: {
+      id: itemId
+    }
+  })
+
+}

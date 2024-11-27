@@ -1,0 +1,121 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+model Account {
+  id                String  @id @default(cuid())
+  userId            String  @map("user_id")
+  type              String
+  provider          String
+  providerAccountId String  @map("provider_account_id")
+  refresh_token     String?
+  access_token      String?
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String?
+  session_state     String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+  @@map("accounts")
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique @map("session_token")
+  userId       String   @map("user_id")
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("sessions")
+}
+
+model User {
+  id            String    @id @default(cuid())
+  name          String?
+  email         String?   @unique
+  emailVerified DateTime? @map("email_verified")
+  image         String?
+
+  stripeCustomerId         String?
+  stripeSubscriptionId     String?
+  stripeSubscriptionStatus String?
+  stripePriceId            String?
+
+  accounts Account[]
+  sessions Session[]
+  Menus    Menus[]
+  pageName String?   @unique
+
+  @@map("users")
+}
+
+model VerificationToken {
+  identifier String
+  token      String
+  expires    DateTime
+
+  @@unique([identifier, token])
+  @@map("verificationtokens")
+}
+
+model Menus {
+  id         String       @id @default(cuid())
+  title      String
+  slug       String
+  createdAt  DateTime     @default(now())
+  updatedAt  DateTime     @updatedAt
+  user       User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId     String
+  coverImg   String?
+  categories Categories[]
+  items      Items[]
+
+  @@map("menus")
+}
+
+model Categories {
+  id        String   @id @default(cuid())
+  name      String   @unique
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  items     Items[]
+  Menus     Menus?   @relation(fields: [menusId], references: [id])
+  menusId   String?
+
+  @@map("categories")
+}
+
+model Items {
+  id           String     @id @default(cuid())
+  name         String     @unique
+  price        String
+  category     Categories @relation(fields: [categoriesId], references: [id])
+  tags         String?
+  ingredients  String
+  description  String
+  availability String
+  cautions     String
+  img          String
+  slug         String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  categoriesId String
+  Menus        Menus?  @relation(fields: [menusId], references: [id])
+  menusId      String?
+
+  @@map("items")
+}

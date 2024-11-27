@@ -1,38 +1,23 @@
-"use client"
-
+import { Header } from "@/components/Header"
 import { SideBar } from "@/components/sideBar"
-import Image from "next/image"
-import { CircleUser, LogOut, Menu } from "lucide-react"
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
+import { SideBarProvider } from "@/contexts/SideBarContext"
+import { auth } from "@/services/auth"
 
-export default function UsersLayout({ children }: { children: React.ReactNode }) {
+export default async function UsersLayout({ children }: { children: React.ReactNode }) {
+
+  const session = await auth()
 
   return (
-    <main className="flex min-h-screen bg-zinc-200">
-      <SideBar />
-
-      <section className="w-full mx-auto min-h-full flex flex-col">
-        <header className="py-4 px-4 flex justify-end border-b border-zinc-800">
-          <div>
-            <DropdownMenu>
-              <DropdownMenuTrigger className="flex py-2 px-4 rounded gap-x-4 bg-primary text-white">
-                <Menu />
-                <CircleUser />
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align="end" sideOffset={8}>
-                <DropdownMenuItem className="justify-between text-zinc-800">
-                  <LogOut />
-                  Sair
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-
-            </DropdownMenu>
-          </div>
-        </header>
-        <section className="mt-6 px-4">
-          {children}
+    <main className="relative flex min-h-screen ">
+      <SideBarProvider>
+        <SideBar user={session?.user} />
+        <section className="md:ml-64 w-full mx-auto min-h-full flex flex-col">
+          <section className="flex flex-col gap-y-8 px-6 mx-auto w-full max-w-5xl z-0 ">
+            <Header />
+            {children}
+          </section>
         </section>
-      </section>
+      </SideBarProvider>
     </main>
   )
 }
