@@ -16,11 +16,15 @@ export default async function RegisterItem({ params }: PageProps) {
 
   const menu = await getMenuData(slug)
 
+  const items = menu?.items
+
+  const qtdItems = items?.length
+
   const session = await auth()
 
   const plan = getPlanByPrice(session?.user.stripePriceId as string)
 
-  if (plan.name !== "pro") {
+  if (plan.name !== "pro" && qtdItems === 15) {
     notFound()
   }
 
