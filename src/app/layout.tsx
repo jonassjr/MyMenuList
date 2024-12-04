@@ -5,7 +5,7 @@ import "./globals.css";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "MyMenuList",
+  title: "Meu menu",
   description: "Um lugar onde você pode listar seu cardápio",
 };
 

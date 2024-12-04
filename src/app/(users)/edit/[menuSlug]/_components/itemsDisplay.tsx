@@ -206,7 +206,7 @@ export const ItemsDisplay = ({ categories, items, menuSlug, plan, qtdItems }: It
               </DropdownMenu>
 
               <Link href={`${menuSlug}/${item.slug}`} >
-                <div className="relative w-full aspect-[16/12] bg-zinc-300 rounded-md overflow-hidden">
+                <div className="relative w-full aspect-[16/12] rounded-md overflow-hidden">
                   <Image src={item.img} fill className="object-cover" alt={`imagem do item ${item.name}`} />
                 </div>
               </Link>
@@ -220,7 +220,7 @@ export const ItemsDisplay = ({ categories, items, menuSlug, plan, qtdItems }: It
         ) : (
           menuItems && menuItems.slice(0, 15).map((item) => (
 
-            <article className="flex flex-col gap-y-2" key={item.id}>
+            <article className="relative flex flex-col gap-y-2" key={item.id}>
               <DropdownMenu>
                 <DropdownMenuTrigger className="z-10 absolute top-2 right-2 bg-zinc-100 rounded-full p-1">
                   <EllipsisVertical size={18} className="text-zinc-800" />
@@ -228,6 +228,8 @@ export const ItemsDisplay = ({ categories, items, menuSlug, plan, qtdItems }: It
                 <DropdownMenuContent align="start">
                   <DropdownMenuItem
                     onClick={() => {
+                      setItemToDelete(item.id)
+                      setImgToDelete(item.img)
                       setIsDialogOpen(true)
                     }}
                   >
@@ -237,7 +239,7 @@ export const ItemsDisplay = ({ categories, items, menuSlug, plan, qtdItems }: It
               </DropdownMenu>
 
               <Link href={`${menuSlug}/${item.slug}`}>
-                <div className="relative w-full aspect-[16/12] bg-zinc-300 rounded-md overflow-hidden">
+                <div className="relative w-full aspect-[16/12] rounded-md overflow-hidden">
                   <Image src={item.img} fill className="object-cover" alt={`imagem do item ${item.name}`} />
                 </div>
               </Link>
